@@ -3,6 +3,7 @@
 //Last Edited: January 20, 2024
 //Description: This file contains the entry point for the application. This is where the app is initialized and the first screen is displayed.
 
+import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:flutter/material.dart';
 import 'features/auth/view/signup/signup_screen.dart'; 
 
@@ -27,6 +28,7 @@ class Entrypoint extends StatelessWidget{
 class EntryPage extends StatefulWidget{
   const EntryPage({Key? key, required this.title}) : super(key: key);
   final String title;
+  //UserInformation userInfo;  
   @override
   State<EntryPage> createState() => EntryPageState();
 }
