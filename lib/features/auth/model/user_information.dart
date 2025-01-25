@@ -13,8 +13,7 @@ class UserInformation {
   String password; 
   String postalCode; 
   String country;
-  String address;
-
+  
     //Constructor: UserInformation
     //Description: This constructor is used to create a new UserInformation object
     UserInformation({
@@ -24,6 +23,7 @@ class UserInformation {
       required this.password,
       required this.postalCode,
       required this.country,
-      required this.address,
     });
+
+    
 }

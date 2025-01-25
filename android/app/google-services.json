@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851639193335",
+    "project_id": "appliance-manager-a042c",
+    "storage_bucket": "appliance-manager-a042c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851639193335:android:e54bb31ebd72f03a824df2",
+        "android_client_info": {
+          "package_name": "com.example.appliance_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlFQ9GvFUJZT62mRzuOHBzhG7KOPke1bo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

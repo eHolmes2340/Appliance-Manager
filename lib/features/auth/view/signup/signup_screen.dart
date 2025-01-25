@@ -162,11 +162,11 @@ class SignupScreen extends StatelessWidget{
                     password: passwordController.text,
                     postalCode: postalCodeController.text,
                     country: selectedCountry,
-                    address: '', // Assuming address is not collected in the form
+                     // Assuming address is not collected in the form
                   );
 
-                  print(userInfo.firstName);
-
+                  //Send to the express.js server 
+                 
                   // Proceed with further actions using userInfo
                 },
                 child: const Text('Submit'), //After submiting go to the password recovery question screen
