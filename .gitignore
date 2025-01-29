@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+##API KEYS
+#Firebase
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json

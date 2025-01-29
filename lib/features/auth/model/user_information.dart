@@ -25,5 +25,4 @@ class UserInformation {
       required this.country,
     });
 
-    
 }

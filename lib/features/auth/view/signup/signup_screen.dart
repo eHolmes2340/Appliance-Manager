@@ -4,38 +4,61 @@
 //Description: This file contains the code for the sign up screen. This includes email and password validation, as well as checking if the email is already in use.
 import 'package:flutter/material.dart';
 import '../../model/user_information.dart';
+import 'validation/password_validation.dart';
+import 'validation/email_postalcode_validation.dart';
+import 'validation/validate_user.dart';
 
 //Class      : SignupScreen
-//Description: This class is a stateless widget that displays the sign up screen
-class SignupScreen extends StatelessWidget{
+//Description: This class is a stateful widget that displays the sign up screen
+class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
+  _SignupScreenState createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController postalCodeController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String selectedCountry = 'Country';
+  String passwordErrorMessage = '';
+  String confirmPasswordErrorMessage = '';
+
+  final InputDecoration inputDecoration = InputDecoration(
+    border: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue),
+    ),
+  );
+
+  final InputDecoration errorInputDecoration = InputDecoration(
+    border: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red),
+    ),
+  );
+
+ 
+
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController firstNameController = TextEditingController();
-    final TextEditingController lastNameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController = TextEditingController();
-    final TextEditingController postalCodeController = TextEditingController();
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    String selectedCountry = 'Country';
-
-    final InputDecoration inputDecoration = InputDecoration(
-      border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.blue),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.blue),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.blue),
-      ),
-    );
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign up'),
-      ),
+      appBar: AppBar(title: const Text('Sign up')),
       body: Center(
         child: Form(
           key: formKey,
@@ -52,7 +75,7 @@ class SignupScreen extends StatelessWidget{
                     }
                     return null;
                   },
-                  decoration: inputDecoration.copyWith(labelText: 'Enter your first name'),
+                  decoration: inputDecoration.copyWith(labelText: 'Enter your first name (required)'),
                 ),
               ),
               Padding(
@@ -65,16 +88,27 @@ class SignupScreen extends StatelessWidget{
                     }
                     return null;
                   },
-                  decoration: inputDecoration.copyWith(labelText: 'Enter your last name'),
+                  decoration: inputDecoration.copyWith(labelText: 'Enter your last name (required)'),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: emailController,
-                  decoration: inputDecoration.copyWith(labelText: 'Enter your email'),
+                  validator: (value) {
+                    return validateEmailAddress(value!);
+                  },
+                  decoration: inputDecoration.copyWith(labelText: 'Enter your email (required)'),
                 ),
               ),
+              if (passwordErrorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    passwordErrorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -86,9 +120,19 @@ class SignupScreen extends StatelessWidget{
                     return null;
                   },
                   obscureText: true,
-                  decoration: inputDecoration.copyWith(labelText: 'Enter your password'),
+                  decoration: passwordErrorMessage.isEmpty
+                      ? inputDecoration.copyWith(labelText: 'Enter your password (required)')
+                      : errorInputDecoration.copyWith(labelText: 'Enter your password (required)'),
                 ),
               ),
+              if (confirmPasswordErrorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    confirmPasswordErrorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -100,7 +144,9 @@ class SignupScreen extends StatelessWidget{
                     return null;
                   },
                   obscureText: true,
-                  decoration: inputDecoration.copyWith(labelText: 'Confirm your password'),
+                  decoration: confirmPasswordErrorMessage.isEmpty
+                      ? inputDecoration.copyWith(labelText: 'Confirm your password (required)')
+                      : errorInputDecoration.copyWith(labelText: 'Confirm your password (required)'),
                 ),
               ),
               Padding(
@@ -120,9 +166,11 @@ class SignupScreen extends StatelessWidget{
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
-                    selectedCountry = newValue!;
+                    setState(() {
+                      selectedCountry = newValue!;
+                    });
                   },
-                  decoration: inputDecoration.copyWith(labelText: 'Country'),
+                  decoration: inputDecoration.copyWith(labelText: 'Country (required)'),
                 ),
               ),
               Padding(
@@ -130,46 +178,55 @@ class SignupScreen extends StatelessWidget{
                 child: TextFormField(
                   controller: postalCodeController,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your postal code';
-                    }
-                    return null;
+                    return validatePostalCode(value!);
                   },
-                  decoration: inputDecoration.copyWith(labelText: 'Enter your postal code'),
+                  decoration: inputDecoration.copyWith(labelText: 'Enter your postal code (required)'),
                 ),
               ),
-              ElevatedButton( 
-                onPressed: (){
-                  if(formKey.currentState!.validate()){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    passwordErrorMessage = '';
+                    confirmPasswordErrorMessage = '';
+                  });
+
+                  if (formKey.currentState!.validate()) {
+                    if (passwordController.text != confirmPasswordController.text) {
+                      setState(() {
+                        confirmPasswordErrorMessage = 'Passwords do not match';
+                      });
+                      return;
+                    }
+
+                    if (validatePasswordLength(passwordController.text) == -1) {
+                      setState(() {
+                        passwordErrorMessage = 'Password must be at least 8 characters';
+                      });
+                      return;
+                    }
+
+                    if (validatePasswordForSpecialCharacters(passwordController.text) == -1) {
+                      setState(() {
+                        passwordErrorMessage = 'Password must contain at least one uppercase letter and one special character';
+                      });
+                      return;
+                    }
+
+                    // Assign the user information to the user information object
+                    UserInformation userInfo = UserInformation(
+                      firstName: firstNameController.text,
+                      lastName: lastNameController.text,
+                      email: emailController.text,
+                      password: passwordController.text,
+                      postalCode: postalCodeController.text,
+                      country: selectedCountry,
                     );
+
+                    // Proceed with further actions using userInfo
+                    showVerificationDialog(context,userInfo);
                   }
-
-                  if (passwordController.text != confirmPasswordController.text) {
-                    // Show error message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Passwords do not match')),
-                    );
-                    return;
-                  }
-
-                  // Assign the user information to the user information object
-                  UserInformation userInfo = UserInformation(
-                    firstName: firstNameController.text,
-                    lastName: lastNameController.text,
-                    email: emailController.text,
-                    password: passwordController.text,
-                    postalCode: postalCodeController.text,
-                    country: selectedCountry,
-                     // Assuming address is not collected in the form
-                  );
-
-                  //Send to the express.js server 
-                 
-                  // Proceed with further actions using userInfo
                 },
-                child: const Text('Submit'), //After submiting go to the password recovery question screen
+                child: const Text('Submit'), // After submitting go to the password recovery question screen
               ),
             ],
           ),
