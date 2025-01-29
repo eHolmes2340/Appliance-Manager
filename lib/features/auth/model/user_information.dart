@@ -25,4 +25,15 @@ class UserInformation {
       required this.country,
     });
 
+    Map<String, dynamic> toJson() {
+      return {
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email,
+        'password': password,
+        'postalCode': postalCode,
+        'country': country,
+      };
+    }
+
 }

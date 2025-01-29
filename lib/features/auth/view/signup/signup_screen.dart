@@ -2,11 +2,12 @@
 //Programmer : Erik Holmes
 //Last Edited: January 20, 2024
 //Description: This file contains the code for the sign up screen. This includes email and password validation, as well as checking if the email is already in use.
+import 'package:appliance_manager/services/send_userinformation_to_Api.dart';
 import 'package:flutter/material.dart';
 import '../../model/user_information.dart';
 import 'validation/password_validation.dart';
 import 'validation/email_postalcode_validation.dart';
-import 'validation/validate_user.dart';
+
 
 //Class      : SignupScreen
 //Description: This class is a stateful widget that displays the sign up screen
@@ -204,7 +205,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       });
                       return;
                     }
-
+ 
                     if (validatePasswordForSpecialCharacters(passwordController.text) == -1) {
                       setState(() {
                         passwordErrorMessage = 'Password must contain at least one uppercase letter and one special character';
@@ -223,7 +224,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     );
 
                     // Proceed with further actions using userInfo
-                    showVerificationDialog(context,userInfo);
+                    sendEmailVerification(userInfo.email, userInfo.password);
+                    
+                    sendUserInformation(userInfo); 
                   }
                 },
                 child: const Text('Submit'), // After submitting go to the password recovery question screen
