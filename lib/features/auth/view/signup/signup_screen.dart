@@ -2,11 +2,11 @@
 //Programmer : Erik Holmes
 //Last Edited: January 20, 2024
 //Description: This file contains the code for the sign up screen. This includes email and password validation, as well as checking if the email is already in use.
-import 'package:appliance_manager/services/send_userinformation_to_Api.dart';
 import 'package:flutter/material.dart';
 import '../../model/user_information.dart';
 import 'validation/password_validation.dart';
 import 'validation/email_postalcode_validation.dart';
+import '../signup/widgets/alert_user_about_validation.dart';
 
 
 //Class      : SignupScreen
@@ -224,9 +224,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     );
 
                     // Proceed with further actions using userInfo
-                    sendEmailVerification(userInfo.email, userInfo.password);
+                    //sendEmailVerification(userInfo.email, userInfo.password);
                     
-                    sendUserInformation(userInfo); 
+                    //sendUserInformation(userInfo); 
+                    showVerfiyAlertBox(context,userInfo.email); 
                   }
                 },
                 child: const Text('Submit'), // After submitting go to the password recovery question screen
