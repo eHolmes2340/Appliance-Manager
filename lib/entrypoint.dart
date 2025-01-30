@@ -3,6 +3,7 @@
 //Last Edited: January 20, 2024
 //Description: This file contains the entry point for the application. This is where the app is initialized and the first screen is displayed.
 
+import 'package:appliance_manager/features/auth/view/login/login.dart';
 import 'package:flutter/material.dart';
 import 'features/auth/view/signup/signup_screen.dart'; 
 
@@ -59,6 +60,10 @@ class EntryPageState extends State<EntryPage> {
                 ElevatedButton(
                   onPressed: () {
                     // Login button pressed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login_Screen()),
+                    );
                   },
                   child: const Text('Login'),
                 ),

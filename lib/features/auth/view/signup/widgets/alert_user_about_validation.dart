@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:appliance_manager/features/auth/view/login/login.dart';
 
 Future<void> showVerfiyAlertBox(context,String email) async {
   return showDialog<void>(
@@ -20,7 +21,7 @@ Future<void> showVerfiyAlertBox(context,String email) async {
           TextButton(
             child: const Text('Login'),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Login_Screen()));
             },
           ),
         ],
