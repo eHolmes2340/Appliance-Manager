@@ -16,6 +16,7 @@ class Entrypoint extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title:'Appliance Manager', 
       theme:ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 25, 53, 193)),
