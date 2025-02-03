@@ -117,6 +117,7 @@ class Login_Screen extends StatelessWidget{
                     }
                     else //Send to dashboard 
                     {
+                      Logger().i('Login successful'); 
                       //Check and see if the 
                     }
                   } 

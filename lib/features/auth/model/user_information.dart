@@ -10,7 +10,6 @@ class UserInformation {
   String firstName;
   String lastName; 
   String email;
-  String password; 
   String postalCode; 
   String country;
   
@@ -20,7 +19,6 @@ class UserInformation {
       required this.firstName,
       required this.lastName,
       required this.email,  
-      required this.password,
       required this.postalCode,
       required this.country,
     });
@@ -30,7 +28,6 @@ class UserInformation {
         'firstName': firstName,
         'lastName': lastName,
         'email': email,
-        'password': password,
         'postalCode': postalCode,
         'country': country,
       };

@@ -2,11 +2,14 @@
 //Programmer : Erik Holmes
 //Last Edited: January 20, 2024
 //Description: This file contains the code for the sign up screen. This includes email and password validation, as well as checking if the email is already in use.
+import 'package:appliance_manager/services/send_userinformation_to_Api.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/web.dart';
 import '../../model/user_information.dart';
 import 'validation/password_validation.dart';
 import 'validation/email_postalcode_validation.dart';
 import '../signup/widgets/alert_user_about_validation.dart';
+import 'widgets/alert_user_Firebase_error.dart'; 
 
 
 //Class      : SignupScreen
@@ -185,7 +188,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
                   setState(() {
                     passwordErrorMessage = '';
                     confirmPasswordErrorMessage = '';
@@ -218,19 +221,30 @@ class _SignupScreenState extends State<SignupScreen> {
                       firstName: firstNameController.text,
                       lastName: lastNameController.text,
                       email: emailController.text,
-                      password: passwordController.text,
                       postalCode: postalCodeController.text,
                       country: selectedCountry,
                     );
 
+                  
                     // Proceed with further actions using userInfo
-                    //sendEmailVerification(userInfo.email, userInfo.password);
-                    
-                    //sendUserInformation(userInfo); 
+                   int validation=await sendEmailVerificationFuc(userInfo.email, passwordController.text);
+                    if(validation!=-0)
+                    {
+                      validateFirebase(context, validation);
+                      return; 
+                    }
+                    //Send to database
+                    try{
+                      sendUserInformation(userInfo); 
+                    }
+                    catch(e)
+                    {
+                      Logger().e('Error sending data to the data base'); 
+                    }
                     showVerfiyAlertBox(context,userInfo.email); 
                   }
                 },
-                child: const Text('Submit'), // After submitting go to the password recovery question screen
+                child: const Text('Create Account'), // After submitting go to the password recovery question screen
               ),
             ],
           ),

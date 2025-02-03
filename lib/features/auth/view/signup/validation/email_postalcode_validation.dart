@@ -39,19 +39,30 @@ validatePostalCode(String postalCode)
   return null;
 }
 
+//Function   :createUser
+//Description: This function is used to create a new user for our application. 
+Future<User> createUser(String email,String password) async
+{
+ UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    User? user= userCredential.user;
+  return Future.value(user);
+}
+
 //Function sendEmailVerification
 //Description: This function is used to send an email verification
-Future<void> sendEmailVerification(String email,String password) async {
+Future<int> sendEmailVerificationFuc(String email,String password) async {
  
  try
  {
-    UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-    User? user= userCredential.user;
+   
+   //Creater a new user. 
+    User? user=await createUser(email,password);
     
     if(user!=null)
     {
       await user.sendEmailVerification(); 
       logger.i('Email verification sent to ${user.email}');
+      return 0; 
     }
  }
  catch (e){
@@ -59,20 +70,25 @@ Future<void> sendEmailVerification(String email,String password) async {
       // Detailed FirebaseAuth exception handling
       if (e.code == 'weak-password') {
         logger.e('The password is too weak.');
+        return -1; 
       } 
       else if (e.code == 'email-already-in-use') {
         logger.i('The email address is already in use.');
+        return -2; 
       }
        else if (e.code == 'invalid-email') {
         logger.e('The email address is invalid.');
+        return -3; 
       } 
       else {
         logger.e('Error: ${e.message}');
+        return -4; 
       }
     } 
     else {
       logger.e('Unknown error: $e');
+      return -5; 
     } 
  }
- 
+ return 0; 
 }

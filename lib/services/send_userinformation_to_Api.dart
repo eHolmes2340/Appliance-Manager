@@ -2,6 +2,8 @@ import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:logger/web.dart';
+
 
 Future<void> sendUserInformation(UserInformation userInfo) async{
 
@@ -14,14 +16,14 @@ Future<void> sendUserInformation(UserInformation userInfo) async{
       ,body: jsonEncode(userInfo.toJson())
     );
     if(response.statusCode==200){
-      print('User information sent successfully');
+      Logger().e('User information sent successfully');
     }
     else{
-      print('Failed to send user information');
+     Logger().e('Failed to send user information');
     }
   }
   catch(e){
-    print('Error: $e');
+     Logger().e('Error: $e');
   }
 
   
