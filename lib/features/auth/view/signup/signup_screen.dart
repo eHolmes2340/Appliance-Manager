@@ -193,7 +193,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     passwordErrorMessage = '';
                     confirmPasswordErrorMessage = '';
                   });
-
+                    //Check if the password and confirm password match 
                   if (formKey.currentState!.validate()) {
                     if (passwordController.text != confirmPasswordController.text) {
                       setState(() {
@@ -202,20 +202,20 @@ class _SignupScreenState extends State<SignupScreen> {
                       return;
                     }
 
+                    // Validate the password length
                     if (validatePasswordLength(passwordController.text) == -1) {
                       setState(() {
                         passwordErrorMessage = 'Password must be at least 8 characters';
                       });
                       return;
                     }
- 
+                      // Validate the password for special characters
                     if (validatePasswordForSpecialCharacters(passwordController.text) == -1) {
                       setState(() {
                         passwordErrorMessage = 'Password must contain at least one uppercase letter and one special character';
                       });
                       return;
                     }
-
                     // Assign the user information to the user information object
                     UserInformation userInfo = UserInformation(
                       firstName: firstNameController.text,
@@ -228,14 +228,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   
                     // Proceed with further actions using userInfo
                    int validation=await sendEmailVerificationFuc(userInfo.email, passwordController.text);
-                    if(validation!=-0)
+                    if(validation!=-0) // return -1 <-> -5
                     {
-                      validateFirebase(context, validation);
+                      validateFirebase(context, validation); // Show the error message from firebase
                       return; 
                     }
                     //Send to database
                     try{
-                      sendUserInformation(userInfo); 
+                      sendUserInformation(userInfo); //Sending the user data to 
                     }
                     catch(e)
                     {

@@ -6,6 +6,7 @@
 
 
 import 'package:appliance_manager/features/auth/view/login/services/signIn.dart';
+import 'package:appliance_manager/features/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import '../signup/signup_screen.dart'; 
 import 'services/forgot_password_alerbox.dart';
@@ -118,13 +119,16 @@ class Login_Screen extends StatelessWidget{
                     else //Send to dashboard 
                     {
                       Logger().i('Login successful'); 
+                     Navigator.push(context,
+                     MaterialPageRoute(builder: (context)=>Dashboard(validEmail: email,)
+                       )
+                     );
                       //Check and see if the 
                     }
                   } 
                   catch (e) {
                     // Handle error
                     Logger().e(e.toString());
-            
                   }
                 },
                 child: const Text('Login'),
