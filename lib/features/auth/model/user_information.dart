@@ -12,7 +12,8 @@ class UserInformation {
   String email;
   String postalCode; 
   String country;
-  
+  bool freeAccount;
+  bool accountVerified;
     //Constructor: UserInformation
     //Description: This constructor is used to create a new UserInformation object
     UserInformation({
@@ -21,6 +22,8 @@ class UserInformation {
       required this.email,  
       required this.postalCode,
       required this.country,
+      required this.freeAccount,
+      required this.accountVerified
     });
 
     Map<String, dynamic> toJson() {
@@ -30,6 +33,8 @@ class UserInformation {
         'email': email,
         'postalCode': postalCode,
         'country': country,
+        'freeAccount': freeAccount,
+        'accountVerified': accountVerified,
       };
     }
 

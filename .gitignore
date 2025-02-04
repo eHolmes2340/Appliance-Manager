@@ -49,3 +49,10 @@ app.*.map.json
 #Firebase
 ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
+
+##Iphone testing script 
+/build_scripts
+
+
+#Server Address 
+lib/services/serverAddress.dart

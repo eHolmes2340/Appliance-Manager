@@ -1,3 +1,7 @@
+//File: password_validation.dart
+//Programmer: Erik Holmes
+//Date: Jan 17, 2025
+//Description: This file contains the password validation functions for the signup screen. 
 
 //Function validatePasswordLength
 //Description: This function will validate the length of the password
