@@ -10,20 +10,29 @@ import 'package:flutter/material.dart';
 //Description : This will create a stateful wisget. 
 class Dashboard extends StatelessWidget{
 
+<<<<<<< HEAD
   final String validEmail; //This will hold the user email address from the login screen. 
+=======
+  final String validEmail;
+
+>>>>>>> 7f8b6b329b0fe385ca6b0a6f7c59e1a75b4e9f16
   const Dashboard({super.key, required this.validEmail}); 
 
   @override
   Widget build(BuildContext context)
   {
+<<<<<<< HEAD
     final bool isVisible = true;
     final bool isElevated=true; 
+=======
+>>>>>>> 7f8b6b329b0fe385ca6b0a6f7c59e1a75b4e9f16
     return PopScope
     (
       canPop: false,
       child: Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
+<<<<<<< HEAD
         automaticallyImplyLeading: false, //Get rid of the back button 
       ),
       )
@@ -36,6 +45,13 @@ class Dashboard extends StatelessWidget{
 void doSomething(bool value)
 {
 
+=======
+        automaticallyImplyLeading: false,
+      ),
+    )
+    ); 
+  }
+>>>>>>> 7f8b6b329b0fe385ca6b0a6f7c59e1a75b4e9f16
 
 }
 
@@ -48,6 +64,7 @@ void doSomething(bool value)
 // Will need to see if the users email address was verfied. 
 // Will need to add a hidden slider where the user can sign out of there account and see there virtual home appliances 
 
+<<<<<<< HEAD
 
 
 
@@ -82,3 +99,5 @@ void doSomething(bool value)
 
 //User reviews and Rating for appliances 
 // Yelp API. 
+=======
+>>>>>>> 7f8b6b329b0fe385ca6b0a6f7c59e1a75b4e9f16
