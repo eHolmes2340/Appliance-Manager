@@ -18,8 +18,10 @@ class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
 }
-
+//Class       :_DashboardState
+//Description : This class will create the state for the dashboard widget
 class _DashboardState extends State<Dashboard> {
+  
   UserInformation? userInfo;
 
   @override
@@ -28,17 +30,16 @@ class _DashboardState extends State<Dashboard> {
     _loadUserInfo();
   }
 
+  //Function  :_loadUserInfo
+  //Description : This function will load the user information from the backend
   Future<void> _loadUserInfo() async {
     UserInformation? info = await retrieveUserProfile(widget.validEmail);
     setState(() {
       userInfo = info;
     });
   }
-
   @override
   Widget build(BuildContext context) {
-    final bool isVisible = true;
-    final bool isElevated = true;
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -51,14 +52,16 @@ class _DashboardState extends State<Dashboard> {
             : Column(
                 children: [
                   Text('Welcome, ${userInfo!.firstName} ${userInfo!.lastName}'),
-                  Text('${userInfo!.email}')
+                  Text('${userInfo!.id}')
                   // ...additional widgets to display user information...
                 ],
               ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppTheme.main_colour,
           onPressed: () {
-            addApplianceDialog(context);
+            //This is a dialog box 
+            addApplianceDialog(context); //Found in the add_appliance.dart file
+
           },
           child: Icon(Icons.add),
         ),
