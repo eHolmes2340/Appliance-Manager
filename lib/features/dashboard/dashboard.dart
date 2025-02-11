@@ -61,7 +61,6 @@ class _DashboardState extends State<Dashboard> {
           onPressed: () {
             //This is a dialog box 
             addApplianceDialog(context); //Found in the add_appliance.dart file
-
           },
           child: Icon(Icons.add),
         ),
