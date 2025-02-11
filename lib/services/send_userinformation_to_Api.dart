@@ -1,7 +1,7 @@
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../features/auth/model/server_address.dart';
+import '../server_address.dart';
 
 import 'package:logger/web.dart';
 
@@ -10,8 +10,10 @@ import 'package:logger/web.dart';
 Future<void> sendUserInformation(UserInformation userInfo) async{
 
   try{
+    String url=ServerAddress.local_host!+ServerAddress.port_number!+ServerAddress.user_information_endpoint!;
+    
     final response=await http.post(
-      Uri.parse('$LOCAL_HOST:$PORTNUMBER/$USER_INFORMATION_TO_BE_SENT'), //These constatnts can be found in the serverAddress.dart file 
+      Uri.parse(url), //These constatnts can be found in the serverAddress.dart file 
       headers:{
         'Content-Type':'application/json'
       }

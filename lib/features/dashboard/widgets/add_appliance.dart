@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/appliance_information.dart';
 import '../../../common/theme.dart';
-import '../../../services/send_appliance_information.dart';
 
 //Function  :_addApplianceDialog
 //Description : This function 
@@ -110,19 +109,18 @@ void addApplianceDialog(BuildContext context) {
                         child: Text('Cancel'),
                       ),
                       TextButton(
-                        onPressed: () async {
+                        onPressed: () {
                           Appliance appliance = Appliance(
                             applianceName: appliance_name.text,
                             applianceType: selectedApplianceType,
                             model: model.text,
                             warrantyExpirationDate: warranty_expiration_date.text,
                           );
-                          bool success = await sendApplianceInformation(appliance);
-                          if (success) {
-                            // Handle success
-                          } else {
-                            // Handle failure
-                          }
+                          // Perform the action to add the appliance
+
+                          //add to database. 
+                          
+
                           Navigator.of(context).pop();
                         },
                         child: Text('Add Appliance'),

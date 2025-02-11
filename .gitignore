@@ -61,7 +61,7 @@ lib/features/auth/model/server_address.dart
 
 
 #Flutter .env 
-.env
+*.env
 
 
 
