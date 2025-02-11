@@ -5,42 +5,67 @@
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:flutter/material.dart';
+import 'package:appliance_manager/services/get_userInformation.dart';
+import 'widgets/add_appliance.dart'; 
+import '../../common/theme.dart';
 
 //Class       :Dashboard
 //Description : This will create a stateful wisget. 
-class Dashboard extends StatelessWidget{
-
-  final String validEmail; //This will hold the user email address from the login screen. 
-  const Dashboard({super.key, required this.validEmail}); 
+class Dashboard extends StatefulWidget {
+  final String validEmail; //This will hold the user email address from the login screen.
+  const Dashboard({super.key, required this.validEmail});
 
   @override
-  Widget build(BuildContext context)
-  {
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  UserInformation? userInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+  }
+
+  Future<void> _loadUserInfo() async {
+    UserInformation? info = await retrieveUserProfile(widget.validEmail);
+    setState(() {
+      userInfo = info;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final bool isVisible = true;
-    final bool isElevated=true; 
-    return PopScope
-    (
+    final bool isElevated = true;
+    return PopScope(
       canPop: false,
       child: Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-        automaticallyImplyLeading: false, //Get rid of the back button 
+        appBar: AppBar(
+          title: Text('Dashboard'),
+          automaticallyImplyLeading: false, //Get rid of the back button
+        ),
+        body: userInfo == null
+            ? Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  Text('Welcome, ${userInfo!.firstName} ${userInfo!.lastName}'),
+                  Text('${userInfo!.email}')
+                  // ...additional widgets to display user information...
+                ],
+              ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppTheme.main_colour,
+          onPressed: () {
+            addApplianceDialog(context);
+          },
+          child: Icon(Icons.add),
+        ),
       ),
-      )
-    
-    ); 
+    );
   }
 }
-
-
-void doSomething(bool value)
-{
-
-
-}
-
-
-
 
 //Dashboard screen steps 
 // Need to retreive some data from the backend now.
@@ -81,4 +106,4 @@ void doSomething(bool value)
 // Button : Call or book services 
 
 //User reviews and Rating for appliances 
-// Yelp API. 
+// Yelp API.

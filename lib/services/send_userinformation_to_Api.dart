@@ -8,7 +8,6 @@ import 'package:logger/web.dart';
 //Function    : sendUserInformation 
 //Description : This function will send users information to the backend. 
 Future<void> sendUserInformation(UserInformation userInfo) async{
-  print(userInfo.toJson());
 
   try{
     final response=await http.post(
@@ -19,15 +18,13 @@ Future<void> sendUserInformation(UserInformation userInfo) async{
       ,body: jsonEncode(userInfo.toJson())
     );
     if(response.statusCode==201){
-      Logger().e('User information sent successfully');
+      Logger().i('User information sent successfully');
     }
     else{
-     Logger().i('Failed to send user information');
+     Logger().t('Failed to send user information');
     }
   }
   catch(e){
      Logger().e('Error: $e');
   }
-
-  
 }

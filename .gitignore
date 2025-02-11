@@ -51,12 +51,17 @@ ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
 
 ##Iphone testing script 
-<<<<<<< HEAD
+
+#these are for building the app for ios and android
 /build_scripts
 
 
 #Server Address 
-lib/services/serverAddress.dart
-=======
-iOSBuild.sh 
->>>>>>> 7f8b6b329b0fe385ca6b0a6f7c59e1a75b4e9f16
+lib/features/auth/model/server_address.dart
+
+
+#Flutter .env 
+.env
+
+
+
