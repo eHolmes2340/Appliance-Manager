@@ -28,14 +28,26 @@ class Appliance {
   });
 
   //Method: toJson
-  //Description: This method is used to convert the Appliance object to a JSON object. This will be used when 
+  //Description: This method is used to convert the Appliance object to a JSON object.
+  Map<String, dynamic> toJson() {
+    return {
+      'applianceName': applianceName,
+      'applianceType': applianceType,
+      'model': model,
+      'warrantyExpirationDate': warrantyExpirationDate,
+      'appilanceImage': appilanceImage?.path,
+    };
+  }
+
+  //Method: fromJson
+  //Description: This method is used to create an Appliance object from a JSON object.
   factory Appliance.fromJson(Map<String, dynamic> json) {
     return Appliance(
       applianceName: json['applianceName'],
       applianceType: json['applianceType'],
       model: json['model'],
       warrantyExpirationDate: json['warrantyExpirationDate'],
-      appilanceImage: json['appilanceImage'],
+      appilanceImage: json['appilanceImage'] != null ? XFile(json['appilanceImage']) : null,
     );
   }
 }

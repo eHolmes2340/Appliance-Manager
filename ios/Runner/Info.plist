@@ -5,6 +5,14 @@
 	<!-- Added the camera -->
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to the camera for scanning appliances.</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>We need access to your microphone for video recording.</string>
+
+    <key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to save pictures.</string>
+
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to add photos to your library.</string>
 	<!-- Camera ends here -->
 	
 	<key>CFBundleDevelopmentRegion</key>
