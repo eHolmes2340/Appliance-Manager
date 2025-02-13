@@ -4,6 +4,7 @@
 //Description: This file will contain the dashboard for the appliance manager project
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/services/get_userInformation.dart';
 import 'widgets/add_appliance.dart'; 
@@ -23,7 +24,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   
   UserInformation? userInfo;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance; 
+  late User _user;
   @override
   void initState() {
     super.initState();
@@ -60,7 +62,7 @@ class _DashboardState extends State<Dashboard> {
           backgroundColor: AppTheme.main_colour,
           onPressed: () {
             //This is a dialog box 
-            addApplianceDialog(context); //Found in the add_appliance.dart file
+            addApplianceDialog(context,userInfo!.id); //Found in the add_appliance.dart file
           },
           child: Icon(Icons.add),
         ),

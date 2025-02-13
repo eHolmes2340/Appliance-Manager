@@ -13,17 +13,22 @@ import 'package:camera/camera.dart';
 class Appliance {
   final String applianceName;
   final String applianceType;
+  final String brand;
   final String model;
   final String warrantyExpirationDate;
-  final XFile? appilanceImage; //This can be null cause the users may not use an image. 
+  String appilanceImageURL; 
+  final XFile? appilanceImage; //This is not stored in the database. 
 
+  
   //Constructor: Appliance
   //Description: This constructor is used to create a new Appliance object
   Appliance({
     required this.applianceName,
     required this.applianceType,
+    required this.brand,
     required this.model,
     required this.warrantyExpirationDate,
+    this.appilanceImageURL='',
     this.appilanceImage,
   });
 
@@ -33,9 +38,10 @@ class Appliance {
     return {
       'applianceName': applianceName,
       'applianceType': applianceType,
+      'brand': brand,
       'model': model,
       'warrantyExpirationDate': warrantyExpirationDate,
-      'appilanceImage': appilanceImage?.path,
+      'applianceImageURL':appilanceImageURL,
     };
   }
 
@@ -45,9 +51,10 @@ class Appliance {
     return Appliance(
       applianceName: json['applianceName'],
       applianceType: json['applianceType'],
+      brand: json['brand'],
       model: json['model'],
       warrantyExpirationDate: json['warrantyExpirationDate'],
-      appilanceImage: json['appilanceImage'] != null ? XFile(json['appilanceImage']) : null,
+      appilanceImageURL: json['applianceImageURL'],
     );
   }
 }
