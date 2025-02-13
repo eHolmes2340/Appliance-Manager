@@ -4,6 +4,7 @@
 //Description: This file will contain the dashboard for the appliance manager project
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/services/get_userInformation.dart';
 import 'widgets/add_appliance.dart'; 
@@ -18,27 +19,29 @@ class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
 }
-
+//Class       :_DashboardState
+//Description : This class will create the state for the dashboard widget
 class _DashboardState extends State<Dashboard> {
+  
   UserInformation? userInfo;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance; 
+  late User _user;
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
   }
 
+  //Function  :_loadUserInfo
+  //Description : This function will load the user information from the backend
   Future<void> _loadUserInfo() async {
     UserInformation? info = await retrieveUserProfile(widget.validEmail);
     setState(() {
       userInfo = info;
     });
   }
-
   @override
   Widget build(BuildContext context) {
-    final bool isVisible = true;
-    final bool isElevated = true;
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -51,14 +54,15 @@ class _DashboardState extends State<Dashboard> {
             : Column(
                 children: [
                   Text('Welcome, ${userInfo!.firstName} ${userInfo!.lastName}'),
-                  Text('${userInfo!.email}')
+                  Text('${userInfo!.id}')
                   // ...additional widgets to display user information...
                 ],
               ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppTheme.main_colour,
           onPressed: () {
-            addApplianceDialog(context);
+            //This is a dialog box 
+            addApplianceDialog(context,userInfo!.id); //Found in the add_appliance.dart file
           },
           child: Icon(Icons.add),
         ),
