@@ -1,7 +1,7 @@
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../server_address.dart';
+import '../common/server_address.dart';
 
 import 'package:logger/web.dart';
 

@@ -11,6 +11,7 @@ import 'package:camera/camera.dart';
 //Class       :Appliance
 //Description : This class will contain the information for the appliances
 class Appliance {
+  final int userId;
   final String applianceName;
   final String applianceType;
   final String brand;
@@ -23,6 +24,7 @@ class Appliance {
   //Constructor: Appliance
   //Description: This constructor is used to create a new Appliance object
   Appliance({
+    required this.userId,
     required this.applianceName,
     required this.applianceType,
     required this.brand,
@@ -36,6 +38,7 @@ class Appliance {
   //Description: This method is used to convert the Appliance object to a JSON object.
   Map<String, dynamic> toJson() {
     return {
+      'userId': userId,
       'applianceName': applianceName,
       'applianceType': applianceType,
       'brand': brand,
@@ -48,13 +51,15 @@ class Appliance {
   //Method: fromJson
   //Description: This method is used to create an Appliance object from a JSON object.
   factory Appliance.fromJson(Map<String, dynamic> json) {
-    return Appliance(
-      applianceName: json['applianceName'],
-      applianceType: json['applianceType'],
-      brand: json['brand'],
-      model: json['model'],
-      warrantyExpirationDate: json['warrantyExpirationDate'],
-      appilanceImageURL: json['applianceImageURL'],
-    );
-  }
+  return Appliance(
+    userId: json['userID'] ?? '',  // Default to empty string if null
+    applianceName: json['applianceName'] ?? '',  // Default to empty string if null
+    applianceType: json['applianceType'] ?? '',  // Default to empty string if null
+    brand: json['brand'] ?? '',  // Default to empty string if null
+    model: json['model'] ?? '',  // Default to empty string if null
+    warrantyExpirationDate: json['warrantyExpirationDate'] ?? '',  // Default to empty string if null
+    appilanceImageURL: json['applianceImageURL'] ?? '',  // Default to empty string if null
+  );
+}
+
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:appliance_manager/features/dashboard/services/image_compress.dart';
+import 'package:appliance_manager/features/dashboard/services/send_appliance_information_to_backend.dart';
 import 'package:appliance_manager/features/dashboard/services/send_image_to_firebase.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -167,6 +168,7 @@ void addApplianceDialog(BuildContext context,int? userId) {
                               });
 
                               Appliance appliance =  Appliance(
+                                userId: userId!,
                                 applianceName: appliance_name.text,
                                 applianceType: selectedApplianceType,
                                 brand: brand.text,
@@ -188,6 +190,7 @@ void addApplianceDialog(BuildContext context,int? userId) {
 
 
                               //Send the data to the Mysql database using http post request
+                              await send_appliance_information_to_backend(appliance);
 
                               // ignore: use_build_context_synchronously
                               Navigator.of(context).pop();

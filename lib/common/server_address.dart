@@ -14,9 +14,12 @@ class ServerAddress{
 
   static String? user_information_endpoint=dotenv.env['USER_INFORMATION_END_POINT'];
   static String? get_user_information=dotenv.env['GET_USER_INFORMATION'];
+  static String? send_appliance_information=dotenv.env['SEND_APPLIANCE_INFORMATION'];
 
 
   //URLs 
   static String createUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/${ServerAddress.user_information_endpoint}';
   static String getUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/${ServerAddress.get_user_information}';
+
+  static String sendApplianceData='${ServerAddress.local_host}:${ServerAddress.port_number}/${ServerAddress.send_appliance_information}';
 }
