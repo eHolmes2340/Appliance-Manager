@@ -24,14 +24,12 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   
   UserInformation? userInfo;
-  final FirebaseAuth _auth = FirebaseAuth.instance; 
-  late User _user;
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
   }
-
+  
   //Function  :_loadUserInfo
   //Description : This function will load the user information from the backend
   Future<void> _loadUserInfo() async {
@@ -86,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
 // -- Badge Alert Recalls 
 // -- Nofitication Alert
 
-//Register New Appliance
+//Register New Appliance:Done 
 // -- Grid view : Display the appiance 
 // -- card Each card will show an image an appliance, name and warranty information if any 
 // -- Floating Action Button 

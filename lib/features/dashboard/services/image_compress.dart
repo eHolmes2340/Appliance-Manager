@@ -1,7 +1,14 @@
+//File       : image_compress.dart  
+//Programmer : Erik Holmes
+//Date       : Feb 10, 2025
+//Description: 
 import 'dart:io';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 
+
+// Function: compressXFile
+// Description: Compresses an image file using the FlutterImageCompress package and returns the compressed file. 
 Future<XFile> compressXFile(XFile xfile) async {
   // Get temporary directory to save compressed image
   Directory tempDir = await getTemporaryDirectory();
