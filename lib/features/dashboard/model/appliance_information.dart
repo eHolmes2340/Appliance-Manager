@@ -51,15 +51,15 @@ class Appliance {
   //Method: fromJson
   //Description: This method is used to create an Appliance object from a JSON object.
   factory Appliance.fromJson(Map<String, dynamic> json) {
-  return Appliance(
-    userId: json['userID'] ?? '',  // Default to empty string if null
-    applianceName: json['applianceName'] ?? '',  // Default to empty string if null
-    applianceType: json['applianceType'] ?? '',  // Default to empty string if null
-    brand: json['brand'] ?? '',  // Default to empty string if null
-    model: json['model'] ?? '',  // Default to empty string if null
-    warrantyExpirationDate: json['warrantyExpirationDate'] ?? '',  // Default to empty string if null
-    appilanceImageURL: json['applianceImageURL'] ?? '',  // Default to empty string if null
-  );
-}
+    return Appliance(
+      userId: json['userId'] ?? 0,  // Default to 0 if null
+      applianceName: json['applianceName'] ?? '',  // Default to empty string if null
+      applianceType: json['applianceType'] ?? '',  // Default to empty string if null
+      brand: json['brand'] ?? '',  // Default to empty string if null
+      model: json['model'] ?? '',  // Default to empty string if null
+      warrantyExpirationDate: json['warrantyExpirationDate'] ?? '',  // Default to empty string if null
+      appilanceImageURL: json['applianceImageURL'] ?? '',  // Default to empty string if null
+    );
+  }
 
 }
