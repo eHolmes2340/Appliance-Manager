@@ -23,5 +23,5 @@ class ServerAddress{
 
   static String sendApplianceData='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.send_appliance_information}';
 
-  static String getApplianceData='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.get_appliance_information}';
+  static String getApplianceData='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.get_appliance_information}?userId=';
 }

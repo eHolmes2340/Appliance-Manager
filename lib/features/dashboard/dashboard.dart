@@ -4,10 +4,12 @@
 //Description: This file will contain the dashboard for the appliance manager project
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
+import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/services/get_userInformation.dart';
 import 'widgets/add_appliance.dart'; 
 import '../../common/theme.dart';
+import 'services/get_appliance_information.dart';
 
 //Class       :Dashboard
 //Description : This will create a stateful wisget. 
@@ -23,6 +25,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   
   UserInformation? userInfo;
+  List<Appliance> appliances = [];
+
   @override
   void initState() {
     super.initState();
@@ -60,8 +64,22 @@ class _DashboardState extends State<Dashboard> {
         );
       },
     );
+  } else {
+    if (userInfo?.id != null) {
+      _loadAppliances(userInfo!.id!);
+    }
   }
+  
 }
+
+  //Function  :_loadAppliances
+  //Description : This function will load the appliances information from the backend
+  Future<void> _loadAppliances(int userId) async {
+    List<Appliance> applianceList = await getApplianceInformation(userId);
+    setState(() {
+      appliances = applianceList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +94,20 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //Add the carousel slider here
+              if (appliances.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: appliances.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(appliances[index].applianceName),
+                        subtitle: Text(appliances[index].applianceType),
+                      );
+                    },
+                  ),
+                )
+              else
+                Text('No appliances found'),
             ],
           ),
         ),
