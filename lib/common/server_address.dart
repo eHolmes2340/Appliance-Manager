@@ -12,6 +12,8 @@ class ServerAddress{
   static String? local_host=dotenv.env['LOCAL_HOST'];
   static String? port_number=dotenv.env['PORT_NUMBER']; 
 
+  static String? forCheckingConnection='${ServerAddress.local_host}:${ServerAddress.port_number}/api/health';
+
   static String? user_information_endpoint=dotenv.env['USER_INFORMATION_END_POINT'];
   static String? get_user_information=dotenv.env['GET_USER_INFORMATION'];
   static String? send_appliance_information=dotenv.env['SEND_APPLIANCE_INFORMATION'];

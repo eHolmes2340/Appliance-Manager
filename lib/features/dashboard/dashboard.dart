@@ -99,10 +99,17 @@ class _DashboardState extends State<Dashboard> {
                   child: ListView.builder(
                     itemCount: appliances.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
+                     return InkWell(
+                      onTap: () {
+                        // Handle the tap event here
+                        print('Tapped on ${appliances[index].applianceName}');
+                        // You can navigate to another screen or perform any action you need
+                      },
+                      child: ListTile(
                         title: Text(appliances[index].applianceName),
                         subtitle: Text(appliances[index].applianceType),
-                      );
+                      ),
+                     );
                     },
                   ),
                 )

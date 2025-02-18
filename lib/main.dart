@@ -7,11 +7,16 @@ import 'package:flutter/material.dart';
 import 'entrypoint.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart'; 
+import 'services/checkConnection.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
 
+  Checkconnection().startCheckingConnection(); // Foreground checking
+  Checkconnection.setupWorkManager(); // Background checking
+
   runApp(const Entrypoint());
+
 }
