@@ -90,6 +90,15 @@ class _DashboardState extends State<Dashboard> {
           title: Text('Dashboard'),
           automaticallyImplyLeading: false, //Get rid of the back button
         ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              
+            ],
+          )
+
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
