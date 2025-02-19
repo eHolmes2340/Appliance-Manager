@@ -5,6 +5,7 @@
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/dashboard/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/services/get_userInformation.dart';
 import 'widgets/add_appliance.dart'; 
@@ -81,6 +82,12 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  void _refreshDashboard() {
+    if (userInfo?.id != null) {
+      _loadAppliances(userInfo!.id!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -90,15 +97,7 @@ class _DashboardState extends State<Dashboard> {
           title: Text('Dashboard'),
           automaticallyImplyLeading: false, //Get rid of the back button
         ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              
-            ],
-          )
-
-        ),
+       drawer: NavDrawer(),//Found in the widget folder nac_drawer.dart 
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +130,7 @@ class _DashboardState extends State<Dashboard> {
           backgroundColor: AppTheme.main_colour,
           onPressed: () {
             //This is a dialog box 
-            addApplianceDialog(context,userInfo!.id); //Found in the add_appliance.dart file
+            addApplianceDialog(context, userInfo!.id, _refreshDashboard); //Found in the add_appliance.dart file
           },
           child: Icon(Icons.add),
         ),

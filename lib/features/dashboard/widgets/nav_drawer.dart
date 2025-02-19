@@ -1,9 +1,11 @@
-
-
 import 'package:flutter/material.dart';
 
-class NavDrawer extends StatelessWidget{
+//Class      :NavDrawer
+//Description: This class will create
+class NavDrawer extends StatelessWidget
+{
 
+  
   @override
   Widget build(BuildContext context){
     return Drawer(
