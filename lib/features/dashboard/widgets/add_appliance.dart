@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 
 //Function  :_addApplianceDialog
 //Description : This function 
-void addApplianceDialog(BuildContext context, int? userId, VoidCallback onApplianceAdded) {
+void addApplianceDialog(BuildContext context, int userId, Function(Appliance) onApplianceAdded) {
   final appliance_name = TextEditingController();
   final brand = TextEditingController(); // New brand text field
   final model = TextEditingController();
@@ -180,7 +180,7 @@ void addApplianceDialog(BuildContext context, int? userId, VoidCallback onApplia
                               });
 
                               Appliance appliance = Appliance(
-                                userId: userId!,
+                                userId: userId,
                                 applianceName: appliance_name.text,
                                 applianceType: selectedApplianceType,
                                 brand: brand.text,
@@ -205,8 +205,8 @@ void addApplianceDialog(BuildContext context, int? userId, VoidCallback onApplia
                               // ignore: use_build_context_synchronously
                               Navigator.of(context).pop();
 
-                              // Call the callback function to refresh the dashboard
-                              onApplianceAdded();
+                              // Call the callback function to add the appliance to the list
+                              onApplianceAdded(appliance);
                             },
                             child: Text(
                               'Add Appliance',
