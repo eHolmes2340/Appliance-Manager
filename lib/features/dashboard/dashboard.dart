@@ -24,16 +24,16 @@ class Dashboard extends StatefulWidget {
 //Class       :_DashboardState
 //Description : This class will create the state for the dashboard widget
 class _DashboardState extends State<Dashboard> {
-  
-  UserInformation? userInfo;
-  List<Appliance> appliances = []; //empty list here 
-
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
   }
-  
+
+
+  UserInformation? userInfo;
+  List<Appliance> appliances = [];
+
   //Function  :_loadUserInfo
   //Description : This function will load the user information from the backend
   Future<void> _loadUserInfo() async {
@@ -107,7 +107,7 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ),
-    drawer: NavDrawer(), // Assign the navigation drawer
+    drawer:  userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
   body: Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,10 +1,19 @@
 import 'package:appliance_manager/common/theme.dart';
+import 'package:appliance_manager/features/auth/model/user_information.dart';
+import 'package:appliance_manager/features/dashboard/dashboard.dart';
+import 'package:appliance_manager/features/profile_page/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import '../../auth/view/login/login.dart';
 
 //Class      :NavDrawer
 //Description: This class will create a navigation drawer for the appliance manager app
-class NavDrawer extends StatelessWidget {
+class NavDrawer extends StatelessWidget 
+{
+  final UserInformation userInfo; 
+
+  const NavDrawer({Key? key, required this.userInfo}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -27,22 +36,25 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.dashboard),
             title: Text('Dashboard'),
             onTap: () {
-              Navigator.pushNamed(context, '/dashboard');
+               Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(validEmail: userInfo.email,)));
             },
           ),
           ListTile(
-            leading: Icon(Icons.add),
-            title: Text('Add Appliance'),
+            leading: Icon(Icons.account_circle),
+            title: Text('Profile'),
             onTap: () {
-              Navigator.pushNamed(context, '/add_appliance');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(userInfo: userInfo,))); //Passing the user information to the backend
             },
           ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Login_Screen()));
-            },
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Login_Screen()));
+              },
+            ),
           ),
         ],
       ),
