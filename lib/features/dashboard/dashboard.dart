@@ -5,6 +5,7 @@
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_menu.dart';
 import 'package:appliance_manager/features/dashboard/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/services/get_userInformation.dart';
@@ -118,8 +119,8 @@ class _DashboardState extends State<Dashboard> {
               itemCount: appliances.length,
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {
-                    print('Tapped on ${appliances[index].applianceName}');
+                  onTapDown: (TapDownDetails details) {
+                    appliance_selected_menu(context, details.globalPosition, appliances[index]); //found in the widgets/appliance_selected_menu.dart
                   },
                   child: ListTile(
                     title: Text(appliances[index].applianceName),

@@ -12,13 +12,13 @@ import 'package:camera/camera.dart';
 //Description : This class will contain the information for the appliances
 class Appliance {
   final int userId;
-  final String applianceName;
-  final String applianceType;
-  final String brand;
-  final String model;
-  final String warrantyExpirationDate;
+  String applianceName;
+  String applianceType;
+  String brand;
+  String model;
+  String warrantyExpirationDate;
   String appilanceImageURL; 
-  final XFile? appilanceImage; //This is not stored in the database. 
+  XFile? appilanceImage; //This is not stored in the database. 
 
   
   //Constructor: Appliance

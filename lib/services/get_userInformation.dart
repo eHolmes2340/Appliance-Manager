@@ -30,7 +30,8 @@ Future<UserInformation?> retrieveUserProfile(String email) async {
       Logger().e('User not found');
       return null;
     }
-    else {
+    else 
+    {
       Logger().e('Failed to retrieve user information: ${response.statusCode}');
       return null;
     }
