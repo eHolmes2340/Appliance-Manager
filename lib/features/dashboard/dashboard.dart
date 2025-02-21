@@ -5,6 +5,7 @@
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/dashboard/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/services/get_userInformation.dart';
 import 'widgets/add_appliance.dart'; 
@@ -23,16 +24,16 @@ class Dashboard extends StatefulWidget {
 //Class       :_DashboardState
 //Description : This class will create the state for the dashboard widget
 class _DashboardState extends State<Dashboard> {
-  
-  UserInformation? userInfo;
-  List<Appliance> appliances = [];
-
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
   }
-  
+
+
+  UserInformation? userInfo;
+  List<Appliance> appliances = [];
+
   //Function  :_loadUserInfo
   //Description : This function will load the user information from the backend
   Future<void> _loadUserInfo() async {
@@ -81,6 +82,14 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  //Function  :_addApplianceToList
+  //Description : This function will add a new appliance to the list without refreshing the whole page
+  void _addApplianceToList(Appliance appliance) {
+    setState(() {
+      appliances.add(appliance);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -88,46 +97,54 @@ class _DashboardState extends State<Dashboard> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Dashboard'),
-          automaticallyImplyLeading: false, //Get rid of the back button
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              if (appliances.isNotEmpty)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: appliances.length,
-                    itemBuilder: (context, index) {
-                     return InkWell(
-                      onTap: () {
-                        // Handle the tap event here
-                        print('Tapped on ${appliances[index].applianceName}');
-                        // You can navigate to another screen or perform any action you need
-                      },
-                      child: ListTile(
-                        title: Text(appliances[index].applianceName),
-                        subtitle: Text(appliances[index].applianceType),
-                      ),
-                     );
-                    },
-                  ),
-                )
-              else
-                Text('No appliances found'),
-            ],
+          automaticallyImplyLeading: false, // Removes the back button
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu), // Menu icon to open drawer
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Open the drawer manually
+              },
+            ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppTheme.main_colour,
-          onPressed: () {
-            //This is a dialog box 
-            addApplianceDialog(context,userInfo!.id); //Found in the add_appliance.dart file
-          },
-          child: Icon(Icons.add),
-        ),
-      ),
-    );
+    drawer:  userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
+  body: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        if (appliances.isNotEmpty)
+          Expanded(
+            child: ListView.builder(
+              itemCount: appliances.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    print('Tapped on ${appliances[index].applianceName}');
+                  },
+                  child: ListTile(
+                    title: Text(appliances[index].applianceName),
+                    subtitle: Text(appliances[index].applianceType),
+                  ),
+                );
+              },
+            ),
+          )
+        else
+          Text('No appliances found'),
+      ],
+    ),
+  ),
+  floatingActionButton: FloatingActionButton(
+    backgroundColor: AppTheme.main_colour,
+    onPressed: () {
+      if (userInfo != null && userInfo!.id != null) {
+        addApplianceDialog(context, userInfo!.id!, _addApplianceToList);
+      }
+    },
+    child: Icon(Icons.add),
+  ),
+)
+);
   }
 }
 

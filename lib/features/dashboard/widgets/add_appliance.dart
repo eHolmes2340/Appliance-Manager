@@ -3,19 +3,20 @@ import 'dart:io';
 import 'package:appliance_manager/features/dashboard/services/image_compress.dart';
 import 'package:appliance_manager/features/dashboard/services/send_appliance_information_to_backend.dart';
 import 'package:appliance_manager/features/dashboard/services/send_image_to_firebase.dart';
+import 'package:appliance_manager/features/dashboard/services/use_image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import '../model/appliance_information.dart';
 import '../../../common/theme.dart';
 import 'camera/camera_button.dart';
+import 'package:image_picker/image_picker.dart';
 
 //Function  :_addApplianceDialog
 //Description : This function 
-void addApplianceDialog(BuildContext context,int? userId) {
+void addApplianceDialog(BuildContext context, int userId, Function(Appliance) onApplianceAdded) {
   final appliance_name = TextEditingController();
   final brand = TextEditingController(); // New brand text field
   final model = TextEditingController();
-  
   final warranty_expiration_date = TextEditingController();
   String selectedApplianceType = 'Kitchen'; // Default value
   XFile? applianceImage;
@@ -141,6 +142,18 @@ void addApplianceDialog(BuildContext context,int? userId) {
                               });
                             },
                           ),
+                          SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () async {
+                              XFile? image = await getImageFromGallery(); //Use_image_picker.dart
+                              if (image != null) {
+                                setState(() {
+                                  applianceImage = image;
+                                });
+                              }
+                            },
+                            child: Text('Choose out of gallery'),
+                          ),
                         ],
                       ),
                     ),
@@ -161,26 +174,24 @@ void addApplianceDialog(BuildContext context,int? userId) {
                             ),
                           ),
                           TextButton(
-                            onPressed: () async
-                            {
+                            onPressed: () async {
                               setState(() {
                                 isLoading = true;
                               });
 
-                              Appliance appliance =  Appliance(
-                                userId: userId!,
+                              Appliance appliance = Appliance(
+                                userId: userId,
                                 applianceName: appliance_name.text,
                                 applianceType: selectedApplianceType,
                                 brand: brand.text,
                                 model: model.text,
                                 warrantyExpirationDate: warranty_expiration_date.text,
-                                appilanceImage: applianceImage, //
+                                appilanceImage: applianceImage,
                               );
 
                               //Send the image to firebase storage 
                               if (appliance.appilanceImage != null) {
-
-                                XFile firebaseFile=await compressXFile(appliance.appilanceImage!);
+                                XFile firebaseFile = await compressXFile(appliance.appilanceImage!);
                                 appliance.appilanceImageURL = await uploadImageToFirebaseStorage(firebaseFile);
                               }
 
@@ -188,12 +199,14 @@ void addApplianceDialog(BuildContext context,int? userId) {
                                 isLoading = false;
                               });
 
-
                               //Send the data to the Mysql database using http post request
                               await send_appliance_information_to_backend(appliance);
 
                               // ignore: use_build_context_synchronously
                               Navigator.of(context).pop();
+
+                              // Call the callback function to add the appliance to the list
+                              onApplianceAdded(appliance);
                             },
                             child: Text(
                               'Add Appliance',
