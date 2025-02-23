@@ -1,20 +1,19 @@
+//File      : main.dart
+//Programmer: Erik Holmes
+//Date      : January 20, 2024
+//Description: This is the main appliaction of the appliance manager mobile app.
+
 import 'package:flutter/material.dart';
+import 'entrypoint.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart'; 
 
-void main() {
-  runApp(const MainApp());
-}
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await dotenv.load(fileName: ".env");
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  
+  runApp(const Entrypoint());
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
 }

@@ -43,3 +43,27 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+##API KEYS
+#Firebase
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+##Iphone testing script 
+
+#these are for building the app for ios and android
+/build_scripts
+
+
+#Server Address 
+lib/features/auth/model/server_address.dart
+
+
+#Flutter .env 
+*.env
+
+#agenda
+agenda.txt
+
+
