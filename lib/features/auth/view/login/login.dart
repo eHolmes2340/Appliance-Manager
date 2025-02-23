@@ -23,19 +23,8 @@ class Login_Screen extends StatelessWidget{
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
-    // Dispose controllers to avoid memory leaks
-    void disposeControllers() {
-      emailController.dispose();
-      passwordController.dispose();
-      
-    }
-
-    return WillPopScope(
-      onWillPop: () async {
-        disposeControllers();
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        return true;
-      },
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Login'),
@@ -118,12 +107,11 @@ class Login_Screen extends StatelessWidget{
                     }
                     else //Send to dashboard 
                     {
-                      Logger().i('Login successful'); 
+                      Logger().i('Login successful');
                      Navigator.push(context,
                      MaterialPageRoute(builder: (context)=>Dashboard(validEmail: email,)
                        )
                      );
-                      //Check and see if the 
                     }
                   } 
                   catch (e) {

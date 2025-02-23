@@ -2,38 +2,45 @@
 //File    : editApplianceDialogBox.dart
 //Programmer : Erik Holmes
 //Date: Feb 19, 2025
-//Description: This file will contain the dialog box to edit the appliance information
+//Description: This file will contain the dialog box to edit the oldApplianceInformation information
+import 'package:appliance_manager/features/dashboard/services/update_appliance_information.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
 import 'package:logger/logger.dart';
 // import 'package:logger/logger.dart';
 
-
-
 //Function    : editApplianceDialogBox
 //Description : This function will bring up a dialog box to edit thiance information
-void editApplianceDialogBox(BuildContext context, Appliance appliance)
+void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformation)
 {
-  // Appliance applianceCopy=appliance;
-  final TextEditingController applianceNameController=TextEditingController(text: appliance.applianceName);
-  final TextEditingController applianceTypeController=TextEditingController(text: appliance.applianceType);
-  final TextEditingController brandController=TextEditingController(text: appliance.brand);
-  final TextEditingController modelController=TextEditingController(text: appliance.model);
-  final TextEditingController warrantyExpirationDateController=TextEditingController(text: appliance.warrantyExpirationDate);
+  //Create a new object that contains the new appliance information. 
+  Appliance newApplianceInformation=Appliance(
+    userId: oldApplianceInformation.userId,
+    applianceName: oldApplianceInformation.applianceName,
+    applianceType: oldApplianceInformation.applianceType,
+    brand: oldApplianceInformation.brand,
+    model: oldApplianceInformation.model,
+    warrantyExpirationDate: oldApplianceInformation.warrantyExpirationDate
+  );
+
+  final TextEditingController applianceNameController=TextEditingController(text: oldApplianceInformation.applianceName);
+  final TextEditingController applianceTypeController=TextEditingController(text: oldApplianceInformation.applianceType);
+  final TextEditingController brandController=TextEditingController(text: oldApplianceInformation.brand);
+  final TextEditingController modelController=TextEditingController(text: oldApplianceInformation.model);
+  final TextEditingController warrantyExpirationDateController=TextEditingController(text: oldApplianceInformation.warrantyExpirationDate);
+
+
+
 
   //Re-enter the information for the appliances. 
   showDialog(context: context, builder: (context)
   {
-
-    
-
     return AlertDialog(
       title: const Text('Edit Appliance'),
       content: Column(
         children: <Widget>[
           TextField(
             controller: applianceNameController,
-            
             decoration: const InputDecoration(labelText: 'Appliance Name'),
           ),
           TextField(
@@ -64,15 +71,23 @@ void editApplianceDialogBox(BuildContext context, Appliance appliance)
         ),
         TextButton(
           onPressed: () {
-            // applianceCopy.applianceName=applianceNameController.text;
-            // applianceCopy.applianceType=applianceTypeController.text;
-            // applianceCopy.brand=brandController.text;
-            // applianceCopy.model=modelController.text;
-            // applianceCopy.warrantyExpirationDate=warrantyExpirationDateController.text;
+           
+              //Update the old oldApplianceInformation information with the new information
+              newApplianceInformation.applianceName=applianceNameController.text;
+              newApplianceInformation.applianceType=applianceTypeController.text;
+              newApplianceInformation.brand=brandController.text;
+              newApplianceInformation.model=modelController.text;
+              newApplianceInformation.warrantyExpirationDate=warrantyExpirationDateController.text;
+
 
             //Save this database now 
 
+
+            Logger().i('Old Appliance: ${oldApplianceInformation.applianceName}'); 
+            Logger().i('New Appliance : ${newApplianceInformation.applianceName}');
+
             //update the dashboard 
+            updateApplianceInformation(newApplianceInformation, oldApplianceInformation, oldApplianceInformation.userId);  //From services/update_appliance_information.dart
 
             //Close the dialog
             Navigator.of(context).pop();

@@ -13,8 +13,14 @@ sign_in(FirebaseAuth auth,String email, String password)async
   }
 
   try{
-    await auth.signInWithEmailAndPassword(email: email, password: password);
-    return true;
+    if(await auth.signInWithEmailAndPassword(email: email, password: password)==null)
+    {
+      return false;
+    }
+    else{
+      return true;
+    }
+   
   }
   catch(e)
   {

@@ -3,7 +3,7 @@ import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:appliance_manager/features/dashboard/dashboard.dart';
 import 'package:appliance_manager/features/profile_page/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+//import 'package:logger/logger.dart';
 import '../../auth/view/login/login.dart';
 
 //Class      :NavDrawer
@@ -52,6 +52,8 @@ class NavDrawer extends StatelessWidget
               leading: Icon(Icons.logout),
               title: Text('Logout'),
               onTap: () {
+
+                //Create a alert box asking if there are sure they want to logout. Then logout
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Login_Screen()));
               },
             ),

@@ -40,7 +40,7 @@ class UserInformation {
         country: json['country'],
         freeAccount: json['freeAccount'],
         accountVerified: json['accountVerified'],
-      );
+      );  
     }
     
     Map<String, dynamic> toJson() {
