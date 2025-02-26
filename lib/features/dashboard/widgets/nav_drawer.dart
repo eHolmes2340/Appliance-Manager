@@ -1,4 +1,5 @@
 import 'package:appliance_manager/common/theme.dart';
+import 'package:appliance_manager/entrypoint.dart';
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:appliance_manager/features/dashboard/dashboard.dart';
 import 'package:appliance_manager/features/profile_page/profile.dart';
@@ -54,7 +55,7 @@ class NavDrawer extends StatelessWidget
               onTap: () {
 
                 //Create a alert box asking if there are sure they want to logout. Then logout
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Login_Screen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Entrypoint()));
               },
             ),
           ),

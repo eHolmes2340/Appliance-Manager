@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 //Description : This class will create the profile page for the user
 class Profile extends StatefulWidget {
   final UserInformation userInfo;
+  
   const Profile({Key? key, required this.userInfo}) : super(key: key);
 
   @override
@@ -26,6 +27,7 @@ class _ProfileState extends State<Profile>
   late TextEditingController _emailController;
   late TextEditingController _postalCodeController;
   late TextEditingController _countryController;
+  
   
   @override
   void initState() {

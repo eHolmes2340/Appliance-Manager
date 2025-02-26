@@ -16,7 +16,7 @@ class Appliance {
   String applianceType;
   String brand;
   String model;
-  String warrantyExpirationDate;
+  String? warrantyExpirationDate;
   String appilanceImageURL; 
   XFile? appilanceImage; //This is not stored in the database. 
 
@@ -43,7 +43,7 @@ class Appliance {
       'applianceType': applianceType,
       'brand': brand,
       'model': model,
-      'warrantyExpirationDate': warrantyExpirationDate,
+     'warrantyExpirationDate': warrantyExpirationDate?.isEmpty ?? true ? null : warrantyExpirationDate,
       'applianceImageURL':appilanceImageURL,
     };
   }
