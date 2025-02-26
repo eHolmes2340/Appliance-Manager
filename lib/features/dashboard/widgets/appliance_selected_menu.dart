@@ -1,19 +1,19 @@
-//File    : 
+//File       : 
 //Programmer : Erik Holmes
+//Date       : Feb 19, 2025
+//Description: This file will contain the menu that will appear when an appliance is selected
 
-// ignore_for_file: non_constant_identifier_names
 
-import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';import 'package:appliance_manager/features/dashboard/dashboard.dart';
+import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
 import 'package:flutter/material.dart';
 import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
-import 'package:logger/logger.dart';
- 
 
 
 
 //Function    : appliance_selected_menu
 //Description : This function will show a menu when an appliance is selected.
-void appliance_selected_menu(BuildContext context, Offset position, Appliance appliance,Future<void> Function(int)reloadList) async {
+void appliance_selected_menu(BuildContext context, Offset position, Appliance appliance,Future<void> Function(int)reloadList) async
+ {
   if (!context.mounted) return;
   final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 
@@ -35,17 +35,12 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
   {
     return;
   }
-if (selectedOption == 'edit') {
-  editApplianceDialogBox(context, appliance, () {
-    if (context.mounted) {
-      Logger().i('Reloading appliance list');
-      reloadList(appliance.userId);
-    }
-  });
-}
+  if (selectedOption == 'edit') {
+    editApplianceDialogBox(context, appliance, reloadList);
+  }
  else if (selectedOption == 'delete')
   {
-    // Bring up a dialog box to confirm the deletion of the appliance
+    
   } 
   else if (selectedOption == 'search') 
   {

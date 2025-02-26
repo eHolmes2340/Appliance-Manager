@@ -3,14 +3,14 @@
 //Programmer : Erik Holmes
 //Date: Feb 19, 2025
 //Description: This file will contain the dialog box to edit the oldApplianceInformation information
-
-
-import 'package:appliance_manager/features/dashboard/services/update_appliance_information.dart';
+import 'package:appliance_manager/features/dashboard/services/sub_menu/update_appliance_information.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
 import 'package:logger/logger.dart';
-void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformation, Null Function() param2) {
-  // Create a new object that contains the new appliance information. 
+
+
+
+void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformation, Function(int) reloadList) {
   Appliance newApplianceInformation = Appliance(
     userId: oldApplianceInformation.userId,
     applianceName: oldApplianceInformation.applianceName,
@@ -26,13 +26,13 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
   final TextEditingController modelController = TextEditingController(text: oldApplianceInformation.model);
   final TextEditingController warrantyExpirationDateController = TextEditingController(text: oldApplianceInformation.warrantyExpirationDate);
 
-  // Show dialog
   showDialog(
     context: context, 
     builder: (context) {
       return AlertDialog(
         title: const Text('Edit Appliance'),
         content: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             TextField(controller: applianceNameController, decoration: const InputDecoration(labelText: 'Appliance Name')),
             TextField(controller: applianceTypeController, decoration: const InputDecoration(labelText: 'Appliance Type')),
@@ -49,26 +49,24 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
-              // Update the old appliance information with the new information
+            onPressed: () async {
               newApplianceInformation.applianceName = applianceNameController.text;
               newApplianceInformation.applianceType = applianceTypeController.text;
               newApplianceInformation.brand = brandController.text;
               newApplianceInformation.model = modelController.text;
               newApplianceInformation.warrantyExpirationDate = warrantyExpirationDateController.text;
 
-              // Debugging log to check if the context is still valid
+              // Update appliance in the database
+              await updateApplianceInformation(newApplianceInformation, oldApplianceInformation);
+
+              // Reload the appliance list after updating
               if (context.mounted) {
-                Logger().i('Dialog closed, reloading appliance list for user: ${newApplianceInformation.userId}');
-                param2();
+                Logger().i('Reloading appliance list after update');
+                reloadList(newApplianceInformation.userId);
               } else {
                 Logger().w('Context is no longer mounted, cannot reload list');
               }
 
-              // Update the dashboard 
-              updateApplianceInformation(newApplianceInformation, oldApplianceInformation);
-
-              // Close the dialog
               Navigator.of(context).pop();
             },
             child: const Text('Save'),
@@ -78,3 +76,4 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
     }
   );
 }
+

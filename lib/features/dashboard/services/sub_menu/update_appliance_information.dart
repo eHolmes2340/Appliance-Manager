@@ -24,7 +24,7 @@ Future<bool> updateApplianceInformation(Appliance newApplianceInformation, Appli
     };
 
     final response = await http.put(
-      Uri.parse('http://10.0.0.105:3000/api/updateApplianceInformation'),
+      Uri.parse('http://10.0.0.248:3000/api/updateApplianceInformation'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
