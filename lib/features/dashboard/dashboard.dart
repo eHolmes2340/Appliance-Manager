@@ -5,12 +5,14 @@
 
   import 'package:appliance_manager/features/auth/model/user_information.dart';
   import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_appliance_information.dart';
   import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_menu.dart';
   import 'package:appliance_manager/features/dashboard/widgets/nav_drawer.dart';
   import 'package:flutter/material.dart';
   import 'package:appliance_manager/services/get_userInformation.dart';
   import 'widgets/add_appliance.dart'; 
   import '../../common/theme.dart';
+  import 'services/get_appliance_information.dart';
   import 'services/get_appliance_information.dart';
 
   //Class       :Dashboard
@@ -40,6 +42,30 @@
       });
     }
 
+    
+    //Function  :deleteAppliance
+    //Description : This function will delete the appliance from the list
+    Future<void> deleteAppliance(Appliance appliance) async {
+      try {
+        bool isDeleted = await deleteApplianceInformation(appliance);
+        if (isDeleted) {
+          setState(() {
+            appliances.removeWhere((item) => item.applianceName == appliance.applianceName);
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('${appliance.applianceName} has been deleted')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to delete the appliance')),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error deleting appliance: $e')),
+        );
+      }
+    }
 
     UserInformation? userInfo;
     List<Appliance> appliances = [];
@@ -82,8 +108,6 @@
     }
     
   }
-
-   
 
     //Function  :_addApplianceToList
     //Description : This function will add a new appliance to the list without refreshing the whole page

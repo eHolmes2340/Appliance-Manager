@@ -24,7 +24,7 @@ Future<bool> updateApplianceInformation(Appliance newApplianceInformation, Appli
     };
 
     final response = await http.put(
-      Uri.parse('http://10.0.0.248:3000/api/updateApplianceInformation'),
+      Uri.parse(ServerAddress.updateApplianceInformation), //ServerAddress.updateApplianceInformation found in the Common/server_address.dart
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

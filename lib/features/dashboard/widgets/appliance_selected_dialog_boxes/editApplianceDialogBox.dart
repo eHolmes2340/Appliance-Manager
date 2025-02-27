@@ -9,7 +9,8 @@ import 'package:appliance_manager/features/dashboard/model/appliance_information
 import 'package:logger/logger.dart';
 
 
-
+//Function    : editApplianceDialogBox
+//Description : Displays a dialog box to edit the appliance information.
 void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformation, Function(int) reloadList) {
   Appliance newApplianceInformation = Appliance(
     userId: oldApplianceInformation.userId,

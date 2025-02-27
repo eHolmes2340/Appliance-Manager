@@ -5,6 +5,7 @@
 
 
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
 import 'package:flutter/material.dart';
 import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
 
@@ -40,7 +41,8 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
   }
  else if (selectedOption == 'delete')
   {
-    
+    //Call delete appliance dialog box asking for confirmation
+    showDeleteConfirmationDialog(context, appliance, reloadList); 
   } 
   else if (selectedOption == 'search') 
   {

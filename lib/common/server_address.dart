@@ -21,8 +21,11 @@ class ServerAddress{
 
   static String? update_appliance_information=dotenv.env['UPDATE_APPLIANCE_INFORMATION'];
 
+  static String? delete_appliance_information=dotenv.env['DELETE_APPLIANCE_INFORMATION'];
+
   //URLs 
   static String createUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.user_information_endpoint}';
+  
   static String getUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.get_user_information}';
 
   static String sendApplianceData='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.send_appliance_information}';
@@ -31,4 +34,7 @@ class ServerAddress{
 
   //Update
   static String updateApplianceInformation='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.update_appliance_information}';
+  
+  //Delete
+  static String deleteApplianceInformation='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.delete_appliance_information}';
 }
