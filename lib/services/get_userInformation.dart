@@ -3,7 +3,7 @@
 //Date    : Feb 9, 2025
 
 import 'dart:convert';
-import 'package:appliance_manager/common/server_address.dart';
+import 'package:appliance_manager/common/obj/server_address.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:appliance_manager/features/auth/model/user_information.dart';

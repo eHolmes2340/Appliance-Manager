@@ -5,6 +5,7 @@
 
 
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/askAi.dart';
 import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
 import 'package:flutter/material.dart';
 import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
@@ -37,20 +38,26 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
     return;
   }
   if (selectedOption == 'edit') {
+    // ignore: use_build_context_synchronously
     editApplianceDialogBox(context, appliance, reloadList);
   }
  else if (selectedOption == 'delete')
   {
     //Call delete appliance dialog box asking for confirmation
+    // ignore: use_build_context_synchronously
     showDeleteConfirmationDialog(context, appliance, reloadList); 
   } 
   else if (selectedOption == 'search') 
   {
-    print('search: ${appliance.applianceName}');
+    
   } 
   else if (selectedOption == 'ask') 
   {
-    // Ask AI for help using AI 
-    print('ask: ${appliance.applianceName}');
+   // ignore: use_build_context_synchronously
+   //This will take me to another screen. 
+
+
+   Navigator.push(context,
+   MaterialPageRoute(builder: (context) =>AskAi(appliance: appliance)));
   }
 }

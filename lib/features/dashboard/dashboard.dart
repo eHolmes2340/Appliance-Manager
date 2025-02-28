@@ -5,7 +5,7 @@
 
   import 'package:appliance_manager/features/auth/model/user_information.dart';
   import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
-import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_appliance_information.dart';
+  import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_appliance_information.dart';
   import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_menu.dart';
   import 'package:appliance_manager/features/dashboard/widgets/nav_drawer.dart';
   import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_ap
   import 'widgets/add_appliance.dart'; 
   import '../../common/theme.dart';
   import 'services/get_appliance_information.dart';
-  import 'services/get_appliance_information.dart';
+ 
 
   //Class       :Dashboard
   //Description : This will create a stateful wisget. 
@@ -37,10 +37,13 @@ import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_ap
     //Description : This function will load the appliances information from the backend
     Future<void> _reloadApplianceList(int userId) async {
       List<Appliance> applianceList = await getApplianceInformation(userId);
+      
+      // Limit the appliance list to the first 5 items
       setState(() {
-        appliances = applianceList;
+        appliances = applianceList.take(5).toList(); // Only take the first 5 appliances
       });
     }
+
 
     
     //Function  :deleteAppliance
@@ -52,10 +55,13 @@ import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_ap
           setState(() {
             appliances.removeWhere((item) => item.applianceName == appliance.applianceName);
           });
-          ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar
+          (
             SnackBar(content: Text('${appliance.applianceName} has been deleted')),
           );
-        } else {
+        } 
+        else
+        {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Failed to delete the appliance')),
           );
@@ -118,61 +124,61 @@ import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_ap
     }
 
     @override
-    Widget build(BuildContext context) {
-      return PopScope(
-        canPop: false,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('Dashboard'),
-            automaticallyImplyLeading: false, // Removes the back button
-            leading: Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.menu), // Menu icon to open drawer
-                onPressed: () {
-                  Scaffold.of(context).openDrawer(); // Open the drawer manually
-                },
-              ),
-            ),
+Widget build(BuildContext context) {
+  return PopScope(
+    canPop: false,
+    child: Scaffold(
+      appBar: AppBar(
+        title: Text('Dashboard'),
+        automaticallyImplyLeading: false, // Removes the back button
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu), // Menu icon to open drawer
+            onPressed: () {
+              Scaffold.of(context).openDrawer(); // Open the drawer manually
+            },
           ),
-      drawer:  userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          if (appliances.isNotEmpty)
-            Expanded(
-              child: ListView.builder(
-                itemCount: appliances.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTapDown: (TapDownDetails details) {
-                      appliance_selected_menu(context, details.globalPosition, appliances[index],_reloadApplianceList); //found in the widgets/appliance_selected_menu.dart
-                    },
-                    child: ListTile(
-                      title: Text(appliances[index].applianceName),
-                      subtitle: Text(appliances[index].applianceType),
-                    ),
-                  );
-                },
-              ),
-            )
-          else
-            Text('No appliances found'),
-        ],
+        ),
+      ),
+      drawer: userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            if (appliances.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: appliances.length, // This will only count up to 5 appliances
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTapDown: (TapDownDetails details) {
+                        appliance_selected_menu(context, details.globalPosition, appliances[index], _reloadApplianceList); //found in the widgets/appliance_selected_menu.dart
+                      },
+                      child: ListTile(
+                        title: Text(appliances[index].applianceName),
+                        subtitle: Text(appliances[index].applianceType),
+                      ),
+                    );
+                  },
+                ),
+              )
+            else
+              Text('No appliances found'),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppTheme.main_colour,
+        onPressed: () {
+          if (userInfo != null && userInfo!.id != null) {
+            addApplianceDialog(context, userInfo!.id!, _addApplianceToList);
+          } 
+        },
+        child: Icon(Icons.add),
       ),
     ),
-    floatingActionButton: FloatingActionButton(
-      backgroundColor: AppTheme.main_colour,
-      onPressed: () {
-        if (userInfo != null && userInfo!.id != null) {
-          addApplianceDialog(context, userInfo!.id!, _addApplianceToList);
-        }
-      },
-      child: Icon(Icons.add),
-    ),
-  )
   );
-    }
+  }
   }
 
 //Dashboard screen steps 
