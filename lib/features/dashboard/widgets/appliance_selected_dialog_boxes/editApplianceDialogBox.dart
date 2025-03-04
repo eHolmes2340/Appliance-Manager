@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
 import 'package:logger/logger.dart';
 
-
 //Function    : editApplianceDialogBox
 //Description : Displays a dialog box to edit the appliance information.
 void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformation, Function(int) reloadList) {
@@ -22,10 +21,20 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
   );
 
   final TextEditingController applianceNameController = TextEditingController(text: oldApplianceInformation.applianceName);
-  final TextEditingController applianceTypeController = TextEditingController(text: oldApplianceInformation.applianceType);
   final TextEditingController brandController = TextEditingController(text: oldApplianceInformation.brand);
   final TextEditingController modelController = TextEditingController(text: oldApplianceInformation.model);
   final TextEditingController warrantyExpirationDateController = TextEditingController(text: oldApplianceInformation.warrantyExpirationDate);
+
+  // List of appliance types
+  final List<String> applianceTypes = [
+    "Refrigerator", 
+    "Washing Machine", 
+    "Dishwasher", 
+    "Oven", 
+    "Microwave", 
+    "Air Conditioner", 
+    "Television"
+  ];
 
   showDialog(
     context: context, 
@@ -36,7 +45,26 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             TextField(controller: applianceNameController, decoration: const InputDecoration(labelText: 'Appliance Name')),
-            TextField(controller: applianceTypeController, decoration: const InputDecoration(labelText: 'Appliance Type')),
+            
+            // Dropdown for Appliance Type
+            DropdownButtonFormField<String>(
+              value: oldApplianceInformation.applianceType.isNotEmpty 
+                  ? oldApplianceInformation.applianceType 
+                  : null,
+              decoration: const InputDecoration(labelText: 'Appliance Type'),
+              items: applianceTypes.map((type) {
+                return DropdownMenuItem<String>(
+                  value: type,
+                  child: Text(type),
+                );
+              }).toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  newApplianceInformation.applianceType = value;
+                }
+              },
+            ),
+
             TextField(controller: brandController, decoration: const InputDecoration(labelText: 'Brand')),
             TextField(controller: modelController, decoration: const InputDecoration(labelText: 'Model')),
             TextField(controller: warrantyExpirationDateController, decoration: const InputDecoration(labelText: 'Warranty Expiration Date')),
@@ -52,7 +80,6 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
           TextButton(
             onPressed: () async {
               newApplianceInformation.applianceName = applianceNameController.text;
-              newApplianceInformation.applianceType = applianceTypeController.text;
               newApplianceInformation.brand = brandController.text;
               newApplianceInformation.model = modelController.text;
               newApplianceInformation.warrantyExpirationDate = warrantyExpirationDateController.text;
@@ -67,7 +94,7 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
               } else {
                 Logger().w('Context is no longer mounted, cannot reload list');
               }
-
+              
               Navigator.of(context).pop();
             },
             child: const Text('Save'),
@@ -77,4 +104,3 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
     }
   );
 }
-

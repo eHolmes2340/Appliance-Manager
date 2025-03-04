@@ -11,7 +11,8 @@ Future <bool> sign_in(FirebaseAuth auth,String email, String password) async
     return false;
   }
 
-  try{
+  try
+  {
     // ignore: unnecessary_null_comparison
     if(await auth.signInWithEmailAndPassword(email: email, password: password)==null)
     {

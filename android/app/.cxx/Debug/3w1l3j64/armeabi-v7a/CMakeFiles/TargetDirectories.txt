@@ -1,0 +1,2 @@
+/Users/erikholmes/Development/capstone/Appliance_Manager_Frontend/appliance_manager/android/app/.cxx/Debug/3w1l3j64/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/erikholmes/Development/capstone/Appliance_Manager_Frontend/appliance_manager/android/app/.cxx/Debug/3w1l3j64/armeabi-v7a/CMakeFiles/rebuild_cache.dir

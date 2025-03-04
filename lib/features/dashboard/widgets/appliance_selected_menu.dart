@@ -7,6 +7,7 @@
 import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
 import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/askAi.dart';
 import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
+import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/searchRepairServices.dart';
 import 'package:flutter/material.dart';
 import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
 
@@ -14,7 +15,7 @@ import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
 
 //Function    : appliance_selected_menu
 //Description : This function will show a menu when an appliance is selected.
-void appliance_selected_menu(BuildContext context, Offset position, Appliance appliance,Future<void> Function(int)reloadList) async
+void appliance_selected_menu(BuildContext context, Offset position, Appliance appliance,Future<void> Function(int)reloadList,String? postalCode) async
  {
   if (!context.mounted) return;
   final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -49,14 +50,12 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
   } 
   else if (selectedOption == 'search') 
   {
-    
+    Navigator.push(context,
+   MaterialPageRoute(builder: (context) =>RepairCompanies(postalCode: postalCode)));
   } 
   else if (selectedOption == 'ask') 
   {
    // ignore: use_build_context_synchronously
-   //This will take me to another screen. 
-
-
    Navigator.push(context,
    MaterialPageRoute(builder: (context) =>AskAi(appliance: appliance)));
   }

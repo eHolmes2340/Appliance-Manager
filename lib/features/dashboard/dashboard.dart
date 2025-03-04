@@ -32,6 +32,12 @@
       super.initState();
       _loadUserInfo();
     }
+    @override
+    void dispose() {
+      // Clean up any resources if needed (e.g., cancel ongoing API requests)
+      // For now, nothing specific to clean up in this code.
+      super.dispose();
+    }
 
      //Function  :_reloadApplianceList
     //Description : This function will load the appliances information from the backend
@@ -40,7 +46,7 @@
       
       // Limit the appliance list to the first 5 items
       setState(() {
-        appliances = applianceList.take(5).toList(); // Only take the first 5 appliances
+        appliances = applianceList; // Only take the first 5 appliances
       });
     }
 
@@ -49,7 +55,8 @@
     //Function  :deleteAppliance
     //Description : This function will delete the appliance from the list
     Future<void> deleteAppliance(Appliance appliance) async {
-      try {
+      try 
+      {
         bool isDeleted = await deleteApplianceInformation(appliance);
         if (isDeleted) {
           setState(() {
@@ -123,69 +130,72 @@
       });
     }
 
-    @override
-Widget build(BuildContext context) {
-  return PopScope(
-    canPop: false,
-    child: Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-        automaticallyImplyLeading: false, // Removes the back button
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu), // Menu icon to open drawer
+        @override
+    Widget build(BuildContext context) {
+      return PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Dashboard'),
+            automaticallyImplyLeading: false, // Removes the back button
+            leading: Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.menu), // Menu icon to open drawer
+                onPressed: () {
+                  Scaffold.of(context).openDrawer(); // Open the drawer manually
+                },
+              ),
+            ),
+          ),
+          drawer: userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (appliances.isNotEmpty)
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: appliances.length, // This will only count up to 5 appliances
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTapDown: (TapDownDetails details) {
+                            appliance_selected_menu(context, details.globalPosition, appliances[index], _reloadApplianceList,userInfo?.postalCode); //found in the widgets/appliance_selected_menu.dart
+                          },
+                          child: ListTile(
+                            title: Text(appliances[index].applianceName),
+                            subtitle: Text(appliances[index].applianceType),
+                            trailing: appliances[index].appilanceImageURL != null && appliances[index].appilanceImageURL.isNotEmpty
+                                ? Image.network(
+                                    appliances[index].appilanceImageURL,
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image),
+                                  )
+                                : null, // No widget if imageUrl is null
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                else 
+                  Text('No appliances found'),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: AppTheme.main_colour,
             onPressed: () {
-              Scaffold.of(context).openDrawer(); // Open the drawer manually
+              if (userInfo != null && userInfo!.id != null) {
+                addApplianceDialog(context, userInfo!.id!, _addApplianceToList);
+              } 
             },
+            child: Icon(Icons.add),
           ),
         ),
-      ),
-      drawer: userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (appliances.isNotEmpty)
-              Expanded(
-                child: ListView.builder(
-                  itemCount: appliances.length, // This will only count up to 5 appliances
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTapDown: (TapDownDetails details) {
-                        appliance_selected_menu(context, details.globalPosition, appliances[index], _reloadApplianceList); //found in the widgets/appliance_selected_menu.dart
-                      },
-                      child: ListTile(
-                        title: Text(appliances[index].applianceName),
-                        subtitle: Text(appliances[index].applianceType),
-                      ),
-                    );
-                  },
-                ),
-              )
-            else
-              Text('No appliances found'),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppTheme.main_colour,
-        onPressed: () {
-          if (userInfo != null && userInfo!.id != null) {
-            addApplianceDialog(context, userInfo!.id!, _addApplianceToList);
-          } 
-        },
-        child: Icon(Icons.add),
-      ),
-    ),
-  );
+      );
+      }
   }
-  }
-
-//Dashboard screen steps 
-// Need to retreive some data from the backend now.
-// Sign information 
-// Will need to see if the users email address was verfied. 
-// Will need to add a hidden slider where the user can sign out of there account and see there virtual home appliances 
 
 
 

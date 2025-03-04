@@ -1,0 +1,1 @@
+/Users/erikholmes/Development/capstone/Appliance_Manager_Frontend/appliance_manager/build/app/intermediates/cxx/Debug/3w1l3j64/obj/x86

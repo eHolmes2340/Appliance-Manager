@@ -2,10 +2,11 @@ import 'package:appliance_manager/common/theme.dart';
 import 'package:appliance_manager/entrypoint.dart';
 import 'package:appliance_manager/features/auth/model/user_information.dart';
 import 'package:appliance_manager/features/dashboard/dashboard.dart';
-import 'package:appliance_manager/features/profile_page/profile.dart';
+import 'package:appliance_manager/features/dashboard/navDrawer/license_page/license.dart';
+import 'package:appliance_manager/features/dashboard/navDrawer/profile_page/profile.dart';
 import 'package:flutter/material.dart';
 //import 'package:logger/logger.dart';
-import '../../auth/view/login/login.dart';
+
 
 //Class      :NavDrawer
 //Description: This class will create a navigation drawer for the appliance manager app
@@ -45,6 +46,13 @@ class NavDrawer extends StatelessWidget
             title: Text('Profile'),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(userInfo: userInfo,))); //Passing the user information to the backend
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.info),
+            title: Text('About'),
+            onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LicenseP(userInfo: userInfo,))); //Passing the user information to the backend
             },
           ),
           Align(
