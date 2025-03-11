@@ -1,49 +1,51 @@
-//File       : dashboard.dart
+//File       : Appliance.dart
 //Programmer : Erik Holmes
 //Date       : Feb 2, 2025 
 //Description: This file will contain the dashboard for the appliance manager project
 
   import 'package:appliance_manager/features/auth/model/user_information.dart';
-  import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
-  import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_appliance_information.dart';
-  import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_menu.dart';
-  import 'package:appliance_manager/features/dashboard/widgets/nav_drawer.dart';
+  import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
+  import 'package:appliance_manager/features/mainApp/services/sub_menu/delete_appliance_information.dart';
+  import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_menu.dart';
+  import 'package:appliance_manager/features/mainApp/widgets/nav_drawer.dart';
   import 'package:flutter/material.dart';
   import 'package:appliance_manager/services/get_userInformation.dart';
-  import 'widgets/add_appliance.dart'; 
-  import '../../common/theme.dart';
-  import 'services/get_appliance_information.dart';
+  import '../../widgets/add_appliance.dart'; 
+  import '../../../../common/theme.dart';
+  import '../../services/get_appliance_information.dart';
  
 
-  //Class       :Dashboard
+  //Class       :Appliances
   //Description : This will create a stateful wisget. 
-  class Dashboard extends StatefulWidget {
+  class Appliances extends StatefulWidget {
     final String validEmail; //This will hold the user email address from the login screen.
-    const Dashboard({super.key, required this.validEmail});
+    const Appliances({super.key, required this.validEmail});
 
     @override
-    DashboardState createState() => DashboardState();
+    ApplianceState createState() => ApplianceState();
   }
+
   //Class       :_DashboardState
   //Description : This class will create the state for the dashboard widget
-  class DashboardState extends State<Dashboard> {
+  class ApplianceState extends State<Appliances> 
+  {
     @override
     void initState() {
       super.initState();
       _loadUserInfo();
     }
+    
     @override
-    void dispose() {
-      // Clean up any resources if needed (e.g., cancel ongoing API requests)
-      // For now, nothing specific to clean up in this code.
+    void dispose() 
+    {
       super.dispose();
     }
 
-     //Function  :_reloadApplianceList
+    //Function  :_reloadApplianceList
     //Description : This function will load the appliances information from the backend
-    Future<void> _reloadApplianceList(int userId) async {
+    Future<void> _reloadApplianceList(int userId) async
+    {
       List<Appliance> applianceList = await getApplianceInformation(userId);
-      
       // Limit the appliance list to the first 5 items
       setState(() {
         appliances = applianceList; // Only take the first 5 appliances
@@ -52,14 +54,17 @@
 
 
     
-    //Function  :deleteAppliance
+    //Function    : deleteAppliance
     //Description : This function will delete the appliance from the list
-    Future<void> deleteAppliance(Appliance appliance) async {
+    Future<void> deleteAppliance(Appliance appliance) async
+    {
       try 
       {
         bool isDeleted = await deleteApplianceInformation(appliance);
-        if (isDeleted) {
-          setState(() {
+        if (isDeleted) 
+        {
+          setState(() 
+          {
             appliances.removeWhere((item) => item.applianceName == appliance.applianceName);
           });
           ScaffoldMessenger.of(context).showSnackBar
@@ -73,7 +78,9 @@
             const SnackBar(content: Text('Failed to delete the appliance')),
           );
         }
-      } catch (e) {
+      } 
+      catch (e) 
+      {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error deleting appliance: $e')),
         );
@@ -87,7 +94,8 @@
     //Description : This function will load the user information from the backend
     Future<void> _loadUserInfo() async {
     UserInformation? info = await retrieveUserProfile(widget.validEmail);
-    setState(() {
+    setState(() 
+    {
       userInfo = info;
     });
 
@@ -106,7 +114,7 @@
                   Navigator.of(context).pop(); 
 
                   // Go back to the previous screen
-                  Navigator.of(context).pop(); // This pops the current screen (Dashboard)
+                  Navigator.of(context).pop(); // This pops the current screen (Appliances)
                 },
                 child: Text('OK'),
               ),
@@ -114,7 +122,10 @@
           );
         },
       );
-    } else {
+    } 
+
+    else 
+    {
       if (userInfo?.id != null) {
         _reloadApplianceList(userInfo!.id!);
       }
@@ -124,7 +135,8 @@
 
     //Function  :_addApplianceToList
     //Description : This function will add a new appliance to the list without refreshing the whole page
-    void _addApplianceToList(Appliance appliance) {
+    void _addApplianceToList(Appliance appliance)
+    {
       setState(() {
         appliances.add(appliance);
       });
@@ -136,7 +148,7 @@
         canPop: false,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Dashboard'),
+            title: Text('Appliances'),
             automaticallyImplyLeading: false, // Removes the back button
             leading: Builder(
               builder: (context) => IconButton(

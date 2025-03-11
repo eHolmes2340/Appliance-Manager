@@ -3,9 +3,9 @@
 //Programmer : Erik Holmes
 //Date: Feb 19, 2025
 //Description: This file will contain the dialog box to edit the oldApplianceInformation information
-import 'package:appliance_manager/features/dashboard/services/sub_menu/update_appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/services/sub_menu/update_appliance_information.dart';
 import 'package:flutter/material.dart';
-import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
 import 'package:logger/logger.dart';
 
 //Function    : editApplianceDialogBox
@@ -27,13 +27,7 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
 
   // List of appliance types
   final List<String> applianceTypes = [
-    "Refrigerator", 
-    "Washing Machine", 
-    "Dishwasher", 
-    "Oven", 
-    "Microwave", 
-    "Air Conditioner", 
-    "Television"
+    'Kitchen', 'Laundry', 'Cleaning', 'Living', 'Bathroom', 'Home Entertainment', 'Home Office', 'Other'
   ];
 
   showDialog(

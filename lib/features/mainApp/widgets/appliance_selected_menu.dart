@@ -1,13 +1,13 @@
-//File       : 
+//File       : appliance_manager/lib/features/dashboard/widgets/appliance_selected_menu.dart
 //Programmer : Erik Holmes
 //Date       : Feb 19, 2025
 //Description: This file will contain the menu that will appear when an appliance is selected
 
 
-import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
-import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/askAi.dart';
-import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
-import 'package:appliance_manager/features/dashboard/widgets/appliance_selected_dialog_boxes/searchRepairServices.dart';
+import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_dialog_boxes/askAi.dart';
+import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
+import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_dialog_boxes/searchRepairServices.dart';
 import 'package:flutter/material.dart';
 import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
 
@@ -15,6 +15,7 @@ import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
 
 //Function    : appliance_selected_menu
 //Description : This function will show a menu when an appliance is selected.
+// ignore: non_constant_identifier_names
 void appliance_selected_menu(BuildContext context, Offset position, Appliance appliance,Future<void> Function(int)reloadList,String? postalCode) async
  {
   if (!context.mounted) return;
@@ -29,6 +30,7 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
     items: [
       const PopupMenuItem(value: 'edit', child: Text('Edit')),
       const PopupMenuItem(value: 'ask', child: Text('Ask A.I for some help')),
+      const PopupMenuItem(value: 'manual', child: Text('Search for online manual')),
       const PopupMenuItem(value: 'search', child: Text('Search for repair service in your area')),
       const PopupMenuItem(value: 'delete', textStyle: TextStyle(color: Colors.red), child: Text('Delete')),
     ],
@@ -50,6 +52,7 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
   } 
   else if (selectedOption == 'search') 
   {
+    // ignore: use_build_context_synchronously
     Navigator.push(context,
    MaterialPageRoute(builder: (context) =>RepairCompanies(postalCode: postalCode)));
   } 

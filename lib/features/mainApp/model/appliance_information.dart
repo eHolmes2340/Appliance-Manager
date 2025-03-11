@@ -19,6 +19,7 @@ class Appliance {
   String? warrantyExpirationDate;
   String appilanceImageURL; 
   XFile? appilanceImage; //This is not stored in the database. 
+  String manualURL; 
 
   
   //Constructor: Appliance
@@ -32,6 +33,8 @@ class Appliance {
     required this.warrantyExpirationDate,
     this.appilanceImageURL='',
     this.appilanceImage,
+    this.manualURL='',
+
   });
 
   //Method: toJson
@@ -45,6 +48,7 @@ class Appliance {
       'model': model,
      'warrantyExpirationDate': warrantyExpirationDate?.isEmpty ?? true ? null : warrantyExpirationDate,
       'applianceImageURL':appilanceImageURL,
+      'manualURL':manualURL,
     };
   }
 
@@ -58,7 +62,9 @@ class Appliance {
       brand: json['brand'] ?? '',  // Default to empty string if null
       model: json['model'] ?? '',  // Default to empty string if null
       warrantyExpirationDate: json['warrantyExpirationDate'] ?? '',  // Default to empty string if null
-      appilanceImageURL: json['applianceImageURL'] ?? '',  // Default to empty string if null
+      appilanceImageURL: json['applianceImageURL'] ?? ' ',  // Default to empty string if null
+      manualURL: json['manualURL'] ?? '',  // Default to empty string if null
+
     );
   }
 
