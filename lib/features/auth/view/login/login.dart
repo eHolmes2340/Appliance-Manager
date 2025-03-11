@@ -6,7 +6,7 @@
 
 
 import 'package:appliance_manager/features/auth/view/login/services/signIn.dart';
-import 'package:appliance_manager/features/dashboard/dashboard.dart';
+import 'package:appliance_manager/features/mainApp/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import '../signup/signup_screen.dart'; 
 import 'services/forgot_password_alerbox.dart';
@@ -28,6 +28,11 @@ class Login_Screen extends StatelessWidget{
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Login'),
+          leading: IconButton(onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back),
+          ),
         ),
         body: Center(
           child: Column(

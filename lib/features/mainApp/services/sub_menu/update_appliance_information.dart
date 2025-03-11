@@ -7,7 +7,7 @@
 import 'dart:convert';
 
 import 'package:appliance_manager/common/obj/server_address.dart';
-import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart'; 
 

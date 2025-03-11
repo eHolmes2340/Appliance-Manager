@@ -23,6 +23,9 @@ class ServerAddress{
 
   static String? delete_appliance_information=dotenv.env['DELETE_APPLIANCE_INFORMATION'];
 
+  //Reacalled appliances
+  static String? recalled_appliances=dotenv.env['GET_RECALLS_FROM_BACKEND'];
+
   //URLs 
   static String createUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.user_information_endpoint}';
   
@@ -37,4 +40,8 @@ class ServerAddress{
   
   //Delete
   static String deleteApplianceInformation='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.delete_appliance_information}';
+
+
+  //Recall list applications 
+  static String fetchRecalls='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.recalled_appliances}';
 }

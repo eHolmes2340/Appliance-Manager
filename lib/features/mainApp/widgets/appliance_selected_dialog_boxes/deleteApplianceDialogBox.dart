@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:appliance_manager/features/dashboard/model/appliance_information.dart';
-import 'package:appliance_manager/features/dashboard/services/sub_menu/delete_appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/services/sub_menu/delete_appliance_information.dart';
 
 //Function    : showDeleteConfirmationDialog
 //Description : Displays a confirmation dialog before deleting an appliance.
-void showDeleteConfirmationDialog(
-    BuildContext context, Appliance appliance, Future<void> Function(int) reloadList) {
+void showDeleteConfirmationDialog(BuildContext context, Appliance appliance, Future<void> Function(int) reloadList) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -21,6 +20,8 @@ void showDeleteConfirmationDialog(
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop(); // Close dialog
+              //Delete URL from Firebase 
+              await deleteImageFirebaseStorage(appliance.appilanceImageURL); //Found in the service/delete_appliance_information.dart file
               await deleteApplianceInformation(appliance); //Found in the service/delete_appliance_information.dart file
               reloadList(appliance.userId); // Refresh appliance list
             },

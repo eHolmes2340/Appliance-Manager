@@ -1,9 +1,11 @@
 import 'package:appliance_manager/common/theme.dart';
 import 'package:appliance_manager/entrypoint.dart';
 import 'package:appliance_manager/features/auth/model/user_information.dart';
-import 'package:appliance_manager/features/dashboard/dashboard.dart';
-import 'package:appliance_manager/features/dashboard/navDrawer/license_page/license.dart';
-import 'package:appliance_manager/features/dashboard/navDrawer/profile_page/profile.dart';
+import 'package:appliance_manager/features/mainApp/dashboard/dashboard.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance.dart';
+
+import 'package:appliance_manager/features/mainApp/navDrawer/license_page/license.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/profile_page/profile.dart';
 import 'package:flutter/material.dart';
 //import 'package:logger/logger.dart';
 
@@ -34,13 +36,7 @@ class NavDrawer extends StatelessWidget
               color: AppTheme.main_colour,
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.dashboard),
-            title: Text('Dashboard'),
-            onTap: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(validEmail: userInfo.email,)));
-            },
-          ),
+
           ListTile(
             leading: Icon(Icons.account_circle),
             title: Text('Profile'),
@@ -48,6 +44,24 @@ class NavDrawer extends StatelessWidget
               Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(userInfo: userInfo,))); //Passing the user information to the backend
             },
           ),
+
+          ListTile(
+            leading: Icon(Icons.dashboard),
+            title: Text('Dashboard'),
+            onTap: () {
+               Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard(validEmail: userInfo.email,)));
+            },
+          ),
+
+          ListTile(
+            leading:Icon(Icons.local_laundry_service),
+            title: Text('Appliances'),
+            onTap:()
+            {
+               Navigator.push(context, MaterialPageRoute(builder: (context) => Appliances(validEmail: userInfo.email,)));
+            }
+          ),
+
           ListTile(
             leading: Icon(Icons.info),
             title: Text('About'),
@@ -55,6 +69,7 @@ class NavDrawer extends StatelessWidget
             Navigator.push(context, MaterialPageRoute(builder: (context) => LicenseP(userInfo: userInfo,))); //Passing the user information to the backend
             },
           ),
+          
           Align(
             alignment: Alignment.bottomLeft,
             child: ListTile(

@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:appliance_manager/features/dashboard/services/image_compress.dart';
-import 'package:appliance_manager/features/dashboard/services/send_appliance_information_to_backend.dart';
-import 'package:appliance_manager/features/dashboard/services/send_image_to_firebase.dart';
-import 'package:appliance_manager/features/dashboard/services/use_image_picker.dart';
+import 'package:appliance_manager/features/mainApp/services/image_compress.dart';
+import 'package:appliance_manager/features/mainApp/services/send_appliance_information_to_backend.dart';
+import 'package:appliance_manager/features/mainApp/services/send_image_to_firebase.dart';
+import 'package:appliance_manager/features/mainApp/services/use_image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import '../model/appliance_information.dart';
