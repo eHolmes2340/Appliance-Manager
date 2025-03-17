@@ -4,7 +4,7 @@
 //Description: This file will contain the profile page for the appliance manager project
 
 import 'package:appliance_manager/features/auth/model/user_information.dart';
-import 'package:appliance_manager/features/mainApp/widgets/nav_drawer.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
 import 'package:flutter/material.dart';
 
 

@@ -4,15 +4,15 @@
 //Description: This file will contain the dashboard for the appliance manager project
 
   import 'package:appliance_manager/features/auth/model/user_information.dart';
-  import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
-  import 'package:appliance_manager/features/mainApp/services/sub_menu/delete_appliance_information.dart';
-  import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_menu.dart';
-  import 'package:appliance_manager/features/mainApp/widgets/nav_drawer.dart';
+  import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+  import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/sub_menu/delete_appliance_information.dart';
+  import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/widgets/appliance_selected_menu.dart';
+  import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
   import 'package:flutter/material.dart';
   import 'package:appliance_manager/services/get_userInformation.dart';
-  import '../../widgets/add_appliance.dart'; 
+  import 'widgets/add_appliance.dart'; 
   import '../../../../common/theme.dart';
-  import '../../services/get_appliance_information.dart';
+  import 'services/get_appliance_information.dart';
  
 
   //Class       :Appliances

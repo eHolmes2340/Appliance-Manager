@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:appliance_manager/features/mainApp/services/image_compress.dart';
-import 'package:appliance_manager/features/mainApp/services/send_appliance_information_to_backend.dart';
-import 'package:appliance_manager/features/mainApp/services/send_image_to_firebase.dart';
-import 'package:appliance_manager/features/mainApp/services/use_image_picker.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/image_compress.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/send_appliance_information_to_backend.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/send_image_to_firebase.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/use_image_picker.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import '../model/appliance_information.dart';
-import '../../../common/theme.dart';
-import 'camera/camera_button.dart';
+import '../../../../../common/theme.dart';
+import '../camera/camera_button.dart';
 import 'package:image_picker/image_picker.dart';
 
 //Function  :_addApplianceDialog

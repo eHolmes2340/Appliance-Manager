@@ -3,9 +3,9 @@
 //Programmer : Erik Holmes
 //Date: Feb 19, 2025
 //Description: This file will contain the dialog box to edit the oldApplianceInformation information
-import 'package:appliance_manager/features/mainApp/services/sub_menu/update_appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/sub_menu/update_appliance_information.dart';
 import 'package:flutter/material.dart';
-import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
 import 'package:logger/logger.dart';
 
 //Function    : editApplianceDialogBox

@@ -4,12 +4,12 @@
 //Description: This file will contain the menu that will appear when an appliance is selected
 
 
-import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
-import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_dialog_boxes/askAi.dart';
-import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
-import 'package:appliance_manager/features/mainApp/widgets/appliance_selected_dialog_boxes/searchRepairServices.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/askAi.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/searchRepairServices.dart';
 import 'package:flutter/material.dart';
-import 'appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
+import '../appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
 
 
 

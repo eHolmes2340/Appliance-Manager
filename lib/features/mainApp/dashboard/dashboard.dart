@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/features/auth/model/user_information.dart';
-import 'package:appliance_manager/features/mainApp/widgets/nav_drawer.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
 import 'package:appliance_manager/services/get_userInformation.dart';
 
 class Dashboard extends StatefulWidget {

@@ -1,6 +1,6 @@
 
 import 'package:appliance_manager/common/obj/server_address.dart';
-import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

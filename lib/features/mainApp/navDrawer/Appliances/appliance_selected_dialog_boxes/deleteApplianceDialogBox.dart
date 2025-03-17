@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:appliance_manager/features/mainApp/model/appliance_information.dart';
-import 'package:appliance_manager/features/mainApp/services/sub_menu/delete_appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/sub_menu/delete_appliance_information.dart';
 
 //Function    : showDeleteConfirmationDialog
 //Description : Displays a confirmation dialog before deleting an appliance.
