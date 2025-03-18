@@ -1,5 +1,5 @@
 import 'package:appliance_manager/common/obj/server_address.dart';
-import '../model/recall.dart';
+import '../model/recallClass.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 

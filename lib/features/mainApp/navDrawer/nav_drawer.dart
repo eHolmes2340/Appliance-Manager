@@ -10,7 +10,7 @@ import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/recall
 import 'package:flutter/material.dart';
 //import 'package:logger/logger.dart';
 
-import 'recalls_page/model/recall.dart';
+import 'recalls_page/model/recallClass.dart';
 
 
 //Class      :NavDrawer
