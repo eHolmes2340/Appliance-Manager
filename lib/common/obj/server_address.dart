@@ -19,6 +19,8 @@ class ServerAddress{
   static String? send_appliance_information=dotenv.env['SEND_APPLIANCE_INFORMATION'];
   static String? get_appliance_information=dotenv.env['GET_APPLIANCE_INFORMATION'];
 
+
+
   static String? update_appliance_information=dotenv.env['UPDATE_APPLIANCE_INFORMATION'];
 
   static String? delete_appliance_information=dotenv.env['DELETE_APPLIANCE_INFORMATION'];

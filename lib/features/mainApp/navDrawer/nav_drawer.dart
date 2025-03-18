@@ -6,8 +6,11 @@ import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/applianc
 
 import 'package:appliance_manager/features/mainApp/navDrawer/license_page/license.dart';
 import 'package:appliance_manager/features/mainApp/navDrawer/profile_page/profile.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/recall.dart';
 import 'package:flutter/material.dart';
 //import 'package:logger/logger.dart';
+
+import 'recalls_page/model/recall.dart';
 
 
 //Class      :NavDrawer
@@ -60,6 +63,15 @@ class NavDrawer extends StatelessWidget
             {
                Navigator.push(context, MaterialPageRoute(builder: (context) => Appliances(validEmail: userInfo.email,)));
             }
+          ),
+          
+          // 
+          ListTile(
+            leading: Icon(Icons.warning),
+            title: Text('Recalled Item'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RecallPage()));
+            },
           ),
 
           ListTile(
