@@ -44,7 +44,20 @@ class UserInformation {
     }
     
     Map<String, dynamic> toJson() {
+      if(id==null)
+      {
+        return {
+          'firstName': firstName,
+          'lastName': lastName,
+          'email': email,
+          'postalCode': postalCode,
+          'country': country,
+          'freeAccount': freeAccount,
+          'accountVerified': accountVerified,
+        };
+      }
       return {
+        'id': id,
         'firstName': firstName,
         'lastName': lastName,
         'email': email,

@@ -44,12 +44,16 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
     // ignore: use_build_context_synchronously
     editApplianceDialogBox(context, appliance, reloadList);
   }
- else if (selectedOption == 'delete')
+  else if (selectedOption == 'delete')
   {
     //Call delete appliance dialog box asking for confirmation
     // ignore: use_build_context_synchronously
     showDeleteConfirmationDialog(context, appliance, reloadList); 
   } 
+  else if (selectedOption == 'manual') 
+  {
+    
+  }
   else if (selectedOption == 'search') 
   {
     // ignore: use_build_context_synchronously
