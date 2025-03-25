@@ -29,6 +29,10 @@ class ServerAddress{
   //Reacalled appliances
   static String? recalled_appliances=dotenv.env['GET_RECALLS_FROM_BACKEND'];
 
+
+  //SAVE manual 
+  static String? save_manual=dotenv.env['SAVE_MANUAL'];
+
   //URLs 
   static String createUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.user_information_endpoint}';
   
@@ -50,6 +54,9 @@ class ServerAddress{
 
   //Update user information
   static String updateUserInformation='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.update_user_information}';
+
+
+  static String saveManual='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.save_manual}';
 }
 
 

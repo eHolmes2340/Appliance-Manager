@@ -4,6 +4,8 @@
 //Description: This file will contain the menu that will appear when an appliance is selected
 
 
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/manuals/manualsNotSaved.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/manuals/manualsSaved.dart';
 import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
 import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/askAi.dart';
 import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/deleteApplianceDialogBox.dart';
@@ -30,7 +32,8 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
     items: [
       const PopupMenuItem(value: 'edit', child: Text('Edit')),
       const PopupMenuItem(value: 'ask', child: Text('Ask A.I for some help')),
-      const PopupMenuItem(value: 'manual', child: Text('Search for online manual')),
+      const PopupMenuItem(value: 'manualnotsaved', child: Text('Search for online manual')),
+      const PopupMenuItem(value: 'manualsaved', child: Text('View saved manual')),
       const PopupMenuItem(value: 'search', child: Text('Search for repair service in your area')),
       const PopupMenuItem(value: 'delete', textStyle: TextStyle(color: Colors.red), child: Text('Delete')),
     ],
@@ -50,9 +53,18 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
     // ignore: use_build_context_synchronously
     showDeleteConfirmationDialog(context, appliance, reloadList); 
   } 
-  else if (selectedOption == 'manual') 
+  else if (selectedOption == 'manualnotsaved') 
   {
-    
+
+      // ignore: use_build_context_synchronously
+      Navigator.push(context,
+      MaterialPageRoute(builder: (context) =>ManualNotSavedWebView(appliance: appliance)));
+  }
+  else if(selectedOption == 'manualsaved')
+  {
+    // ignore: use_build_context_synchronously
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context) =>ManualSavedWebView(appliance: appliance)));
   }
   else if (selectedOption == 'search') 
   {
