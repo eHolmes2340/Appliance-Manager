@@ -40,6 +40,8 @@ class _ManualNotSavedWebViewState extends State<ManualNotSavedWebView> {
       ..loadRequest(Uri.parse(manualLibsUrl + widget.appliance.brand));
   }
 
+  //Function   : _injectSearchQuery
+  //Dcescription: 
   void _injectSearchQuery() {
     String model = widget.appliance.model;
     String brand=widget.appliance.brand;
@@ -108,7 +110,14 @@ class _ManualNotSavedWebViewState extends State<ManualNotSavedWebView> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${widget.appliance.brand} Manual"),
-        
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed:() async{
+              await _saveManualUrl();
+            },
+          ),
+        ],
       ),
       body: WebViewWidget(controller: _controller),
     );

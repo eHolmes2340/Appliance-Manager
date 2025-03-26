@@ -59,14 +59,7 @@ class _ManualSavedWebViewState extends State<ManualSavedWebView> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${widget.appliance.brand} Manual"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {// Save the manual URL
-              Navigator.pop(context); // Go back to the previous page
-            },
-          ),
-        ],
+        
       ),
       body: WebViewWidget(controller: _controller),
     );

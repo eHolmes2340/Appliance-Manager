@@ -10,7 +10,8 @@ import 'package:camera/camera.dart';
 
 //Class       :Appliance
 //Description : This class will contain the information for the appliances
-class Appliance {
+class Appliance 
+{
   final int userId;
   String applianceName;
   String applianceType;
@@ -34,7 +35,6 @@ class Appliance {
     this.appilanceImageURL='',
     this.appilanceImage,
     this.manualURL='',
-
   });
 
   //Method: toJson

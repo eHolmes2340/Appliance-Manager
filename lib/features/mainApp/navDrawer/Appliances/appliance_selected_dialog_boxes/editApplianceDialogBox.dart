@@ -3,10 +3,15 @@
 //Programmer : Erik Holmes
 //Date: Feb 19, 2025
 //Description: This file will contain the dialog box to edit the oldApplianceInformation information
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/send_image_to_firebase.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/sub_menu/delete_appliance_information.dart';
 import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/sub_menu/update_appliance_information.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/services/use_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:logger/logger.dart';
+import '../camera/camera_button.dart'; 
 
 //Function    : editApplianceDialogBox
 //Description : Displays a dialog box to edit the appliance information.
@@ -18,8 +23,11 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
     brand: oldApplianceInformation.brand,
     model: oldApplianceInformation.model,
     warrantyExpirationDate: oldApplianceInformation.warrantyExpirationDate,
+    appilanceImageURL: oldApplianceInformation.appilanceImageURL,
+    manualURL: oldApplianceInformation.manualURL,
   );
 
+  XFile? newImageSaved; 
   final TextEditingController applianceNameController = TextEditingController(text: oldApplianceInformation.applianceName);
   final TextEditingController brandController = TextEditingController(text: oldApplianceInformation.brand);
   final TextEditingController modelController = TextEditingController(text: oldApplianceInformation.model);
@@ -65,12 +73,39 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
           ],
         ),
         actions: <Widget>[
+
+       CameraButton(
+          onPictureTaken: (XFile? image) {
+            if (image == null) {
+              Logger().w("No image captured.");
+              return;
+            }
+            Logger().i("Image captured successfully");
+            newImageSaved = image;
+            newApplianceInformation.appilanceImage = image; // Ensure valid assignment
+        
+          }
+        ),
+
+
+        ElevatedButton(
+          onPressed: ()async{
+           newImageSaved=(await getImageFromGallery())!; 
+            newApplianceInformation.appilanceImage=newImageSaved; 
+            },
+            child: Text('Choose out of gallery')
+            ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
             child: const Text('Cancel'),
           ),
+
+
+          //Start here and edit it so if there is no image saved then we will not upload the image to firebase storage
+          //Mar 26 2025
+          
           TextButton(
             onPressed: () async {
               newApplianceInformation.applianceName = applianceNameController.text;
@@ -78,12 +113,36 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
               newApplianceInformation.model = modelController.text;
               newApplianceInformation.warrantyExpirationDate = warrantyExpirationDateController.text;
 
-              // Update appliance in the database
-              await updateApplianceInformation(newApplianceInformation, oldApplianceInformation);
 
+              print(newApplianceInformation.toJson());
+              print(oldApplianceInformation.toJson());
+
+                 // Ensure an image exists before uploading
+              if (newImageSaved == null) 
+              {
+                Logger().w("No new image was selected.");
+                await updateApplianceInformation(newApplianceInformation, oldApplianceInformation);
+                
+              } 
+              else {
+                Logger().w("New Image select.");
+                await deleteImageFirebaseStorage(oldApplianceInformation.appilanceImageURL);
+                // Compress the image before uploading
+                newApplianceInformation.appilanceImage = newImageSaved;
+                newApplianceInformation.appilanceImageURL = await uploadImageToFirebaseStorage(newApplianceInformation.appilanceImage!);
+                if(await updateApplianceInformation(newApplianceInformation, oldApplianceInformation)==false)
+                {
+                  Logger().e("Failed to update appliance information");
+                }
+                else
+                {
+                  Logger().i("Appliance information updated successfully");
+                }
+              }
+          
               // Reload the appliance list after updating
               if (context.mounted) {
-                Logger().i('Reloading appliance list after update');
+                Logger().i('Reloading appli ance list after update');
                 reloadList(newApplianceInformation.userId);
               } else {
                 Logger().w('Context is no longer mounted, cannot reload list');
@@ -93,8 +152,11 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
             },
             child: const Text('Save'),
           ),
+          
+    
         ],
       );
     }
   );
 }
+

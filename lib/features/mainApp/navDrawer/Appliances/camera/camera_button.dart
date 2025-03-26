@@ -32,7 +32,7 @@ class _CameraButtonState extends State<CameraButton> {
     if (cameras != null && cameras!.isNotEmpty) {
       _controller = CameraController(cameras![0], ResolutionPreset.high);
       await _controller?.initialize();
-      setState(() {}); // Refresh the UI after camera initialization
+      setState(() {}); // Refresh  the UI after camera initialization
     }
   }
   @override
