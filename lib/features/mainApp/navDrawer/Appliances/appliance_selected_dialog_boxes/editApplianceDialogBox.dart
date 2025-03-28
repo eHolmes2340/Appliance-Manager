@@ -113,19 +113,18 @@ void editApplianceDialogBox(BuildContext context, Appliance oldApplianceInformat
               newApplianceInformation.model = modelController.text;
               newApplianceInformation.warrantyExpirationDate = warrantyExpirationDateController.text;
 
-
-              print(newApplianceInformation.toJson());
-              print(oldApplianceInformation.toJson());
+              //Set the old manual URL to the new appliance information manual URL
+              newApplianceInformation.manualURL = oldApplianceInformation.manualURL;
 
                  // Ensure an image exists before uploading
               if (newImageSaved == null) 
               {
                 Logger().w("No new image was selected.");
                 await updateApplianceInformation(newApplianceInformation, oldApplianceInformation);
-                
               } 
-              else {
-                Logger().w("New Image select.");
+              else 
+              {
+                
                 await deleteImageFirebaseStorage(oldApplianceInformation.appilanceImageURL);
                 // Compress the image before uploading
                 newApplianceInformation.appilanceImage = newImageSaved;

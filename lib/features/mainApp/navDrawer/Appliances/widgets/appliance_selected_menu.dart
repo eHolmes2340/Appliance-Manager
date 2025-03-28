@@ -55,10 +55,9 @@ void appliance_selected_menu(BuildContext context, Offset position, Appliance ap
   } 
   else if (selectedOption == 'manualnotsaved') 
   {
-
-      // ignore: use_build_context_synchronously
-      Navigator.push(context,
-      MaterialPageRoute(builder: (context) =>ManualNotSavedWebView(appliance: appliance)));
+    // ignore: use_build_context_synchronously
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context) =>ManualNotSavedWebView(appliance: appliance,reloadList: reloadList,)));
   }
   else if(selectedOption == 'manualsaved')
   {

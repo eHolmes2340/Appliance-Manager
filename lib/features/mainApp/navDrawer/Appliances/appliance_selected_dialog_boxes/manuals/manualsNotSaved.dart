@@ -12,8 +12,9 @@ const String manualLibsUrl = 'https://www.manualslib.com/brand/';
 
 class ManualNotSavedWebView extends StatefulWidget {
   final Appliance appliance;
+  final  Function(int) reloadList;
   
-  const ManualNotSavedWebView({super.key, required this.appliance});
+  const ManualNotSavedWebView({super.key, required this.appliance, required this.reloadList});
 
   @override
   State<ManualNotSavedWebView> createState() => _ManualNotSavedWebViewState();
@@ -84,7 +85,7 @@ class _ManualNotSavedWebViewState extends State<ManualNotSavedWebView> {
         );
 
         if (response.statusCode == 200)
-       {
+        {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Manual saved successfully!')),
           );
@@ -115,6 +116,7 @@ class _ManualNotSavedWebViewState extends State<ManualNotSavedWebView> {
             icon: const Icon(Icons.save),
             onPressed:() async{
               await _saveManualUrl();
+              widget.reloadList(widget.appliance.userId);
             },
           ),
         ],

@@ -46,7 +46,7 @@
     Future<void> _reloadApplianceList(int userId) async
     {
       List<Appliance> applianceList = await getApplianceInformation(userId);
-      // Limit the appliance list to the first 5 items
+      
       setState(() {
         appliances = applianceList; // Only take the first 5 appliances
       });
