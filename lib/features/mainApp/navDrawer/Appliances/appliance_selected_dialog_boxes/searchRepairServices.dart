@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import '../widgets/show_repair_service_dialog.dart'; 
 
 //Class       :RepairCompanies
 //Description : This class will show the repair companies in the area.
@@ -152,6 +153,7 @@ class _RepairCompaniesState extends State<RepairCompanies> {
                     ),
                     onTap: () {
                       // Handle tap on company
+                      showRepairServiceDialog(context, company);
                     },
                   ),
                 );
