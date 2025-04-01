@@ -1,3 +1,4 @@
+import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
 import 'package:flutter/material.dart';
 import 'services/getRecalls.dart';
 import 'model/recallClass.dart';
@@ -67,41 +68,7 @@ class _RecallPageState extends State<RecallPage> {
     }
   }
 
-  //Function    : _showRecallDetailsDialog
-  //Description : This function is used to show the details of the recall in a dialog box.
-  void _showRecallDetailsDialog(Recall recall) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(recall.recall_heading, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('📅 Recall Date: ${recall.recall_date}', style: TextStyle(fontSize: 16)),
-               // Text('⚠️ Safety Warning Date: ${recall.saftey_warning_date}', style: TextStyle(fontSize: 16)),
-                SizedBox(height: 8),
-                Text('📦 Product Name:', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(recall.product_name),
-                SizedBox(height: 8),
-                Text('🚨 Hazard Description:', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(recall.hazard_description),
-                SizedBox(height: 8),
-               
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Close', style: TextStyle(color: Colors.blue)),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +127,7 @@ class _RecallPageState extends State<RecallPage> {
                                   Text('Date: ${recall.recall_date}'),
                                 ],
                               ),
-                              onTap: () => _showRecallDetailsDialog(recall), // Tap to show popup
+                              onTap: () => showRecallDetailsDialog(recall,context), // Tap to show popup
                             ),
                           );
                         },

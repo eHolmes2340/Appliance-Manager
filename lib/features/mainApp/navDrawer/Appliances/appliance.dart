@@ -212,34 +212,4 @@
 
 
 
-//Appliance Recall Alerts 
-// -- ListView
-// -- Card + List title 
-// -- Badge Alert Recalls 
-// -- Nofitication Alert
 
-//Register New Appliance:Done 
-// -- Grid view : Display the appiance 
-// -- card Each card will show an image an appliance, name and warranty information if any 
-// -- Floating Action Button 
-// -- Progress Indicator
-
-// Warranty Receipt Storage Register Appliance 
-// Expansion Tile : Show appliance warranty details 
-// ImagePicker: 
-// PDF Viewer: view the warranty receipt 
-
-// Maintenance Reminders 
-
-//Troubling shooting AI assitance 
-// -- Text Field : Describe issue 
-// -- Elevated Button : Start AI 
-// Animated Container
-
-//Parts and Repair Service Finder 
-//-- Goole Maps API 
-// List view : Display recommended repair services
-// Button : Call or book services 
-
-//User reviews and Rating for appliances 
-// Yelp API.

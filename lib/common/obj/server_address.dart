@@ -11,6 +11,11 @@ class ServerAddress{
   //.env vars 
   static String? local_host=dotenv.env['LOCAL_HOST'];
   static String? port_number=dotenv.env['PORT_NUMBER']; 
+   //Dashboard 
+  static String? get_recall_information_for_dashboard=dotenv.env['DASHBOARD_RECALLS'];
+
+
+
 
   static String? forCheckingConnection='${ServerAddress.local_host}:${ServerAddress.port_number}/api/health';
 
@@ -29,6 +34,8 @@ class ServerAddress{
   //Reacalled appliances
   static String? recalled_appliances=dotenv.env['GET_RECALLS_FROM_BACKEND'];
 
+
+ 
 
   //URLs 
   static String createUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.user_information_endpoint}';
@@ -54,6 +61,13 @@ class ServerAddress{
 
 
   static String saveManual='${ServerAddress.local_host}:${ServerAddress.port_number}/api/saveManual';
+
+
+  static String dashboardRecall='${ServerAddress.local_host}:${ServerAddress.port_number}/api/getRecallInformationForDashboard';
+
+  static String dashboardAppliances='${ServerAddress.local_host}:${ServerAddress.port_number}/api/getApplianceInformationForDashboard/';
+
+
 }
 
 
