@@ -2,6 +2,7 @@
   import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/widgets/viewApplianceInfoDialog.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
+
   import 'package:flutter/material.dart';
   import 'package:appliance_manager/features/auth/model/user_information.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
@@ -43,6 +44,9 @@ class DashboardState extends State<Dashboard>
       applianceList = await dashboardAppliance(userInfo!.id);
       recallList = await dashboardRecalls();
     }
+
+    //Notification
+    //ksetupFirebaseMessaging(); 
 
     setState(() {}); // Refresh UI after loading
   }
