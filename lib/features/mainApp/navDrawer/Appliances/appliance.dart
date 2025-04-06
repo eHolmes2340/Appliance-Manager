@@ -9,7 +9,7 @@
   import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/widgets/appliance_selected_menu.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
   import 'package:flutter/material.dart';
-  import 'package:appliance_manager/services/get_userInformation.dart';
+  import 'package:appliance_manager/features/auth/services/get_userInformation.dart';
   import 'widgets/add_appliance.dart'; 
   import '../../../../common/theme.dart';
   import 'services/get_appliance_information.dart';

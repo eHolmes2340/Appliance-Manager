@@ -7,7 +7,7 @@
 //Class      : UserInformation
 //Description: This class is used to store user information
 class UserInformation {
-  int? id; 
+  int id; 
   String firstName;
   String lastName; 
   String email;

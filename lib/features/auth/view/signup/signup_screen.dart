@@ -2,7 +2,7 @@
 //Programmer : Erik Holmes
 //Last Edited: January 20, 2024
 //Description: This file contains the code for the sign up screen. This includes email and password validation, as well as checking if the email is already in use.
-import 'package:appliance_manager/services/send_userinformation_to_api.dart';
+import 'package:appliance_manager/features/auth/services/send_userinformation_to_Api.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/web.dart';
 import '../../model/user_information.dart';
@@ -248,7 +248,7 @@ class _SignupScreenState extends State<SignupScreen> {
                            
                             sendUserInformation(userInfo); //Sending the user data to 
 
-                            // ----------> express.js server 
+
                           }
                           catch(e)
                           {

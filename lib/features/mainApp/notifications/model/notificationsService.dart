@@ -1,67 +1,43 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:convert';
+import 'package:appliance_manager/common/obj/server_address.dart';
+import 'package:http/http.dart' as http;
 
-class NotificationsService {
-  // Singleton pattern
-  static final NotificationsService _instance = NotificationsService._internal();
-  factory NotificationsService() => _instance;
-  NotificationsService._internal();
+class NotificationItem {
+  final int id;
+  final String type;
+  final String title;
+  final String message;
+  final bool isRead;
 
-  // Declare the plugin as a class field
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  NotificationItem({
+    required this.id,
+    required this.type,
+    required this.title,
+    required this.message,
+    required this.isRead,
+  });
 
-  Future<void> init() async {
-    // Android initialization settings
-    const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
- 
-    // iOS initialization settings
-    const DarwinInitializationSettings iosSettings = DarwinInitializationSettings();
-
-    // Initialization settings for both platforms
-    const InitializationSettings initSettings = InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
-    );
-    
-    await flutterLocalNotificationsPlugin.initialize(
-      initSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse response) async {
-        // Handle notification tapped logic here if needed.
-      },
+  factory NotificationItem.fromJson(Map<String, dynamic> json) {
+    return NotificationItem(
+      id: json['id'],
+      type: json['type'],
+      title: json['title'],
+      message: json['message'],
+      isRead: json['isRead'] == 1,
     );
   }
+}
 
-  /// Show a local notification with given title and body.
-  Future<void> showNotifiacation({
-    required String title,
-    required String body,
-    int notificationId = 0,
-  }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'your_channel_id', // Channel ID
-      'Your Channel Name', // Channel Name
-      channelDescription: 'Your channel description',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-    );
 
-    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
+Future<List<NotificationItem>> fetchNotifications(int userId,String notificationTypeUrl) async {
+  final response = await http.get(Uri.parse('$notificationTypeUrl$userId')); // Use the correct URL for fetching notifications
 
-    const NotificationDetails details = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-    );
 
-    // Show the notificatio
-    await flutterLocalNotificationsPlugin.show(
-      notificationId,
-      title,
-      body,
-      details,
-      payload: 'Custom_Payload',
-    );
+  if (response.statusCode == 200) {
+    List<dynamic> data = jsonDecode(response.body);
+    return data.map((json) => NotificationItem.fromJson(json)).toList();
+  } 
+  else {
+    throw Exception("Failed to fetch notifications");
   }
 }

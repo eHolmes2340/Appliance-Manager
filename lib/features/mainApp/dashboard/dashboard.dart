@@ -1,12 +1,14 @@
-  import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+  import 'package:appliance_manager/common/obj/server_address.dart';
+import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/widgets/viewApplianceInfoDialog.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
+import 'package:appliance_manager/features/mainApp/notifications/model/notificationsService.dart';
 
   import 'package:flutter/material.dart';
   import 'package:appliance_manager/features/auth/model/user_information.dart';
   import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
-  import 'package:appliance_manager/services/get_userInformation.dart';
+  import 'package:appliance_manager/features/auth/services/get_userInformation.dart';
   import 'services/dashboard_information.dart';
 
   class Dashboard extends StatefulWidget {
@@ -25,11 +27,13 @@ class DashboardState extends State<Dashboard>
   bool isLoadingUser = true;
   List<Appliance> applianceList = [];
   List<Recall> recallList = [];
-
+  List<NotificationItem> notificationsList = [];
+  
   @override
   void initState() {
     super.initState();
     _loadDashboardInfo();
+
   }
 
   // Function to load all dashboard info
@@ -43,6 +47,7 @@ class DashboardState extends State<Dashboard>
     if (userInfo != null) {
       applianceList = await dashboardAppliance(userInfo!.id);
       recallList = await dashboardRecalls();
+      await _loadNotifications(); // Load notifications
     }
 
     //Notification
@@ -50,6 +55,20 @@ class DashboardState extends State<Dashboard>
 
     setState(() {}); // Refresh UI after loading
   }
+
+
+  Future<void> _loadNotifications() async {
+  if (userInfo == null) return; // Ensure userInfo is loaded
+
+  try {
+    List<NotificationItem> fetchedNotifications = await fetchNotifications(userInfo!.id,ServerAddress.getRecallNotifications);
+    setState(() {
+      notificationsList = fetchedNotifications;
+    });
+  } catch (e) {
+    debugPrint("Error fetching notifications: $e");
+  }
+}
 
   // Function to load user info
   Future<void> _loadUserInfo() async {
@@ -105,8 +124,11 @@ class DashboardState extends State<Dashboard>
       appBar: AppBar(title: const Text('Dashboard'),
       actions: [
         IconButton(icon: const Icon(Icons.notifications),
-        onPressed: (){
-
+        onPressed: ()
+        {
+          // Handle notification icon tap
+          
+          
         },)
       ],),
       drawer: userInfo != null ? NavDrawer(userInfo: userInfo!) : null,

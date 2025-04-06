@@ -34,8 +34,7 @@ class ServerAddress{
   //Reacalled appliances
   static String? recalled_appliances=dotenv.env['GET_RECALLS_FROM_BACKEND'];
 
-
- 
+  static String? recalled_notifications=dotenv.env['RECALL_NOTIFICATIONS'];
 
   //URLs 
   static String createUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.user_information_endpoint}';
@@ -66,6 +65,9 @@ class ServerAddress{
   static String dashboardRecall='${ServerAddress.local_host}:${ServerAddress.port_number}/api/getRecallInformationForDashboard';
 
   static String dashboardAppliances='${ServerAddress.local_host}:${ServerAddress.port_number}/api/getApplianceInformationForDashboard/';
+
+
+  static String getRecallNotifications='${ServerAddress.local_host}:${ServerAddress.port_number}/api//recall/notifications/';
 
 
 }
