@@ -1,4 +1,4 @@
-import 'package:appliance_manager/features/auth/model/user_information.dart';
+import 'package:applianceCare/features/auth/model/user_information.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../common/obj/server_address.dart';

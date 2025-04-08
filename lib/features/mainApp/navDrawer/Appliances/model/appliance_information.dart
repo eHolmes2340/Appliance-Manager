@@ -13,6 +13,7 @@ import 'package:camera/camera.dart';
 class Appliance 
 {
   final int userId;
+  int applianceId = 0; //This is not stored in the database.
   String applianceName;
   String applianceType;
   String brand;

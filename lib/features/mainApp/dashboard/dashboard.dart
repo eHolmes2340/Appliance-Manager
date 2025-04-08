@@ -1,44 +1,41 @@
-  import 'package:appliance_manager/common/obj/server_address.dart';
-import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
-  import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/widgets/viewApplianceInfoDialog.dart';
-  import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
-  import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
-import 'package:appliance_manager/features/mainApp/notifications/model/notificationsService.dart';
+import 'package:applianceCare/common/obj/server_address.dart';
+import 'package:applianceCare/common/theme.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:applianceCare/features/mainApp/dashboard/widgets/viewApplianceInfoDialog.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
+import 'package:applianceCare/features/mainApp/notifications/model/notificationsService.dart';
+import 'package:applianceCare/features/mainApp/notifications/services/notificationTab.dart';
 
-  import 'package:flutter/material.dart';
-  import 'package:appliance_manager/features/auth/model/user_information.dart';
-  import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
-  import 'package:appliance_manager/features/auth/services/get_userInformation.dart';
-  import 'services/dashboard_information.dart';
+import 'package:flutter/material.dart';
+import 'package:applianceCare/features/auth/model/user_information.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/nav_drawer.dart';
+import 'package:applianceCare/features/auth/services/get_userInformation.dart';
+import 'services/dashboard_information.dart';
 
-  class Dashboard extends StatefulWidget {
-    final String validEmail; // Holds the user email from the login screen.
-    const Dashboard({super.key, required this.validEmail});
+class Dashboard extends StatefulWidget {
+  final String validEmail; // Holds the user email from the login screen.
+  const Dashboard({super.key, required this.validEmail});
 
-    @override
-    DashboardState createState() => DashboardState();
-  }
+  @override
+  DashboardState createState() => DashboardState();
+}
 
-//Class: DashboardState
-//Description: This class will create the state for the dashboard widget
-class DashboardState extends State<Dashboard> 
-{
+class DashboardState extends State<Dashboard> {
   UserInformation? userInfo;
   bool isLoadingUser = true;
   List<Appliance> applianceList = [];
   List<Recall> recallList = [];
   List<NotificationItem> notificationsList = [];
-  
+
   @override
   void initState() {
     super.initState();
     _loadDashboardInfo();
-
   }
 
   // Function to load all dashboard info
   Future<void> _loadDashboardInfo() async {
-
     setState(() {
       isLoadingUser = true; // Show loading indicator
     });
@@ -50,25 +47,21 @@ class DashboardState extends State<Dashboard>
       await _loadNotifications(); // Load notifications
     }
 
-    //Notification
-    //ksetupFirebaseMessaging(); 
-
     setState(() {}); // Refresh UI after loading
   }
 
-
   Future<void> _loadNotifications() async {
-  if (userInfo == null) return; // Ensure userInfo is loaded
+    if (userInfo == null) return; // Ensure userInfo is loaded
 
-  try {
-    List<NotificationItem> fetchedNotifications = await fetchNotifications(userInfo!.id,ServerAddress.getRecallNotifications);
-    setState(() {
-      notificationsList = fetchedNotifications;
-    });
-  } catch (e) {
-    debugPrint("Error fetching notifications: $e");
+    try {
+      List<NotificationItem> fetchedNotifications = await fetchNotifications(userInfo!.id, ServerAddress.getRecallNotifications);
+      setState(() {
+        notificationsList = fetchedNotifications;
+      });
+    } catch (e) {
+      debugPrint("Error fetching notifications: $e");
+    }
   }
-}
 
   // Function to load user info
   Future<void> _loadUserInfo() async {
@@ -101,7 +94,7 @@ class DashboardState extends State<Dashboard>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Error Code: 404'),
+            title: const Text('Error Code: 500'),
             content: const Text('Servers are currently down'),
             actions: <Widget>[
               TextButton(
@@ -121,18 +114,20 @@ class DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard'),
-      actions: [
-        IconButton(icon: const Icon(Icons.notifications),
-        onPressed: ()
-        {
-          // Handle notification icon tap
-          
-          
-        },)
-      ],),
+      appBar: AppBar(
+       
+        backgroundColor:AppTheme.main_colour, // Modern, customizable color
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              // Handle notification icon tap
+              showNotificationsPopup(context);
+            },
+          ),
+        ],
+      ),
       drawer: userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
-      
       body: isLoadingUser
           ? const Center(child: CircularProgressIndicator())
           : Padding(
@@ -142,29 +137,31 @@ class DashboardState extends State<Dashboard>
                 children: [
                   const Text(
                     "Dashboard",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black87), // Clean and modern
                   ),
                   const SizedBox(height: 16),
 
                   // Section: Recalled Products
-                           
                   const Text(
                     "Recently Recalled Products",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87), // Modern section header
                   ),
                   const SizedBox(height: 8),
 
                   recallList.isEmpty
                       ? const Text("No recalled products found.")
-                      : Expanded( // Wrap the list in Expanded so it takes only the necessary space
+                      : Expanded(
                           child: ListView.builder(
-                            itemCount: recallList.length, // Show all recalls
+                            itemCount: recallList.length,
                             itemBuilder: (context, index) {
                               return Card(
+                                elevation: 4,
+                                color: Colors.grey.shade100, // Light modern card color
+                                margin: const EdgeInsets.only(bottom: 12),
                                 child: ListTile(
                                   title: Text(recallList[index].product_name),
-                                  subtitle: Text("Tap to view details"),
-                                  trailing: const Icon(Icons.info_outline),
+                                  subtitle: const Text("Tap to view details"),
+                                  trailing: const Icon(Icons.info_outline, color:AppTheme.main_colour),
                                   onTap: () {
                                     showRecallDetailsDialog(recallList[index], context);
                                   },
@@ -178,7 +175,7 @@ class DashboardState extends State<Dashboard>
                   // Section: Appliances
                   const Text(
                     "Your Appliances",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87), // Modern section header
                   ),
                   const SizedBox(height: 8),
                   applianceList.isEmpty
@@ -188,6 +185,9 @@ class DashboardState extends State<Dashboard>
                             itemCount: applianceList.length,
                             itemBuilder: (context, index) {
                               return Card(
+                                elevation: 4,
+                                color: Colors.grey.shade100, // Light modern card color
+                                margin: const EdgeInsets.only(bottom: 12),
                                 child: ListTile(
                                   title: Text(applianceList[index].applianceName),
                                   subtitle: Text("Brand: ${applianceList[index].brand}"),
@@ -200,7 +200,7 @@ class DashboardState extends State<Dashboard>
                                           errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
                                         )
                                       : null, // No widget if imageUrl is null
-                                  onTap: (){
+                                  onTap: () {
                                     viewApplianceDialog(applianceList[index], context);
                                   },
                                 ),

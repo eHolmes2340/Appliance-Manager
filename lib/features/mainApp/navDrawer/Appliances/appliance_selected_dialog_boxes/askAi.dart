@@ -1,5 +1,5 @@
-import 'package:appliance_manager/common/theme.dart';
-import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:applianceCare/common/theme.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
 import 'package:flutter/material.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter_gemini/flutter_gemini.dart'; // Import Gemini package
@@ -45,7 +45,7 @@ class _AskAiState extends State<AskAi> {
         title: const Text('Ask Google Gemini'),
         centerTitle: true,
         backgroundColor: AppTheme.main_colour,
-        foregroundColor: Colors.white,
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
       ),
       body: _buildUI(),
     );
@@ -56,6 +56,7 @@ class _AskAiState extends State<AskAi> {
       currentUser: currentUser,
       onSend: _sendMessage,
       messages: messages,
+      
     );
   }
   void _sendMessage(ChatMessage chatMessage) {

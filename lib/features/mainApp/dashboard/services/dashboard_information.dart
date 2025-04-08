@@ -1,8 +1,8 @@
-import 'package:appliance_manager/common/obj/server_address.dart';
+import 'package:applianceCare/common/obj/server_address.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
-import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
 import 'package:logger/logger.dart';
 
 
@@ -11,7 +11,7 @@ Future<List<Appliance>> dashboardAppliance(int? userID)async
   List<Appliance> applianceList = [];
   if(userID==null)
   {
-    return applianceList;
+    return applianceList; 
   }
 
   try

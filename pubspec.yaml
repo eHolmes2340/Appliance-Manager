@@ -1,4 +1,4 @@
-name: appliance_manager
+name: applianceCare 
 description: "This application will help ."
 publish_to: 'none'
 
@@ -37,6 +37,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/appicon/
     - .env
 
 

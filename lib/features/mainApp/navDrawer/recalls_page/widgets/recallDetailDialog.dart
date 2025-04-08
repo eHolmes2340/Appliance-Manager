@@ -1,6 +1,6 @@
-import 'package:appliance_manager/common/getApplianceImages.dart';
+import 'package:applianceCare/common/getApplianceImages.dart';
 import 'package:flutter/material.dart';
-import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
 
 //Function    : showRecallDetailsDialog
 //Description : This function is used to show the recall details dialog when a recall is clicked.

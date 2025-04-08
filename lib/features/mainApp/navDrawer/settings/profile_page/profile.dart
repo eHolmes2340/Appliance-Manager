@@ -1,6 +1,5 @@
-import 'package:appliance_manager/common/theme.dart';
-import 'package:appliance_manager/features/auth/model/user_information.dart';
-import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
+import 'package:applianceCare/common/theme.dart';
+import 'package:applianceCare/features/auth/model/user_information.dart';
 import 'package:flutter/material.dart';
 import 'services/sendNewUserInformation.dart';
 
@@ -46,7 +45,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  // Function to save profile (without email/password update)
+  // Function to save profile and return updated information
   void _saveProfile() async {
     setState(() {
       _isEditing = false;
@@ -74,13 +73,8 @@ class _ProfileState extends State<Profile> {
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Profile updated successfully!")));
 
-    // Update local userInfo state
-    setState(() {
-      widget.userInfo.firstName = _firstNameController.text;
-      widget.userInfo.lastName = _lastNameController.text;
-      widget.userInfo.postalCode = _postalCodeController.text;
-      widget.userInfo.country = _countryController.text;
-    });
+    // Return the updated user info back to SettingsPage
+    Navigator.pop(context, updatedUserInfo);
   }
 
   @override
@@ -88,7 +82,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        foregroundColor: Colors.white,
+        foregroundColor: const Color.fromARGB(255, 14, 7, 7),
         backgroundColor: AppTheme.main_colour,
         actions: [
           IconButton(
@@ -97,7 +91,6 @@ class _ProfileState extends State<Profile> {
           ),
         ],
       ),
-      drawer: NavDrawer(userInfo: widget.userInfo),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

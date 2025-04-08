@@ -2,8 +2,9 @@
 //Programmer : Erik Holmes
 //Date: Feb 19, 2025
 //Description: This file will contain the license page for the application
-import 'package:appliance_manager/features/auth/model/user_information.dart';
-import 'package:appliance_manager/features/mainApp/navDrawer/nav_drawer.dart';
+import 'package:applianceCare/common/theme.dart';
+import 'package:applianceCare/features/auth/model/user_information.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/nav_drawer.dart';
 import 'package:flutter/material.dart';
 
 //Class       :LicenseP
@@ -20,6 +21,7 @@ class LicenseP extends StatelessWidget
     return Scaffold(
       appBar: AppBar(
         title: const Text("About App"),
+        backgroundColor: AppTheme.main_colour,
       ),
       drawer: NavDrawer(userInfo: userInfo), // Add the drawer to the page
       body: Builder(
@@ -30,7 +32,8 @@ class LicenseP extends StatelessWidget
               children: [
                 // Author and version text
                 const Text(
-                  "Author: Erik Holmes\nVersion: 1.0",
+                  "Author: Erik Holmes\nVersion: 1.0\n SET Group 14"
+                  ,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey),
                 ),

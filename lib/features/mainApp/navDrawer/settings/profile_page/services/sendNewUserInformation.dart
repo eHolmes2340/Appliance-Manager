@@ -2,10 +2,10 @@
 //Programmer : Erik Holmes
 //Date       : Mar 19, 2025 
 //Description: This file contains a function to send updated user data to the server
-import 'package:appliance_manager/common/obj/server_address.dart';
+import 'package:applianceCare/common/obj/server_address.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:appliance_manager/features/auth/model/user_information.dart';
+import 'package:applianceCare/features/auth/model/user_information.dart';
 import 'package:logger/logger.dart';
 
 //Function   : sendNewUserInformation

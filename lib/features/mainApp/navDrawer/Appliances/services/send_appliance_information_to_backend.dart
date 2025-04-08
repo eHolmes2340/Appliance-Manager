@@ -2,8 +2,8 @@
 //Programmer: Erik Holmes
 //Date: Feb 10, 2025
 //Description: This file will send the appliance information to the backend server
-import 'package:appliance_manager/common/obj/server_address.dart';
-import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:applianceCare/common/obj/server_address.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:logger/logger.dart';

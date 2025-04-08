@@ -3,7 +3,7 @@
 //Date       : Feb 12, 2025
 //Description: This file will contain the function to get the appliance information from the backend
 
-import 'package:appliance_manager/common/obj/server_address.dart';
+import 'package:applianceCare/common/obj/server_address.dart';
 import 'package:logger/logger.dart';
 import '../model/appliance_information.dart';
 import 'dart:convert';

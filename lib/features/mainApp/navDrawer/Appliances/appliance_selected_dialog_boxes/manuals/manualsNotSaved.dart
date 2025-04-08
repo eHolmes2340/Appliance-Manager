@@ -1,5 +1,6 @@
 
-import 'package:appliance_manager/common/obj/server_address.dart';
+import 'package:applianceCare/common/obj/server_address.dart';
+import 'package:applianceCare/common/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -109,16 +110,25 @@ class _ManualNotSavedWebViewState extends State<ManualNotSavedWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.main_colour,
       appBar: AppBar(
         title: Text("${widget.appliance.brand} Manual"),
         actions: [
           IconButton(
-            icon: const Icon(Icons.save),
-            onPressed:() async{
-              await _saveManualUrl();
-              widget.reloadList(widget.appliance.userId);
-            },
-          ),
+          icon: const Icon(Icons.save),
+          onPressed: () async {
+            String? currentUrl = await _controller.currentUrl();
+
+            if (currentUrl != null) {
+              Navigator.pop(context, currentUrl); // ✅ Return the manual URL
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Could not retrieve manual URL')),
+              );
+            }
+          },
+        ),
+
         ],
       ),
       body: WebViewWidget(controller: _controller),

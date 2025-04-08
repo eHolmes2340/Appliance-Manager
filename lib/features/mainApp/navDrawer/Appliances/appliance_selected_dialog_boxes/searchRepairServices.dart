@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:appliance_manager/common/theme.dart';
+import 'package:applianceCare/common/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -30,7 +30,6 @@ class _RepairCompaniesState extends State<RepairCompanies> {
   }
 
   //Function    :fetchRepairCompanies 
-
   //Description : This function will fetch the repair companies in the area.
   Future<void> fetchRepairCompanies() async {
     final String url =
@@ -100,8 +99,6 @@ class _RepairCompaniesState extends State<RepairCompanies> {
 
   @override
   void dispose() {
-    // Clean up any resources if needed (e.g., cancel ongoing API requests)
-    // For now, nothing specific to clean up in this code.
     super.dispose();
   }
 
@@ -109,52 +106,89 @@ class _RepairCompaniesState extends State<RepairCompanies> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Repair Services'),
-        foregroundColor: Colors.white,
+        title: Text('Repair Services Nearby', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
         backgroundColor: AppTheme.main_colour,
+        elevation: 4,
       ),
       body: repairCompanies.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(AppTheme.main_colour),
+              ),
+            )
           : ListView.builder(
+              padding: EdgeInsets.all(16),
               itemCount: repairCompanies.length,
               itemBuilder: (context, index) {
                 final company = repairCompanies[index];
                 return Card(
-                  margin: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(bottom: 20),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  elevation: 5,
-                  child: ListTile(
-                    contentPadding: EdgeInsets.all(10),
-                    title: Text(
-                      company["name"] ?? "Unknown",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Address: ${company["address"]}",
-                          style: TextStyle(color: Colors.grey[700]),
-                        ),
-                        Text(
-                          "Phone: ${company["phone"] ?? "Loading..."}",
-                          style: TextStyle(color: Colors.grey[700]),
-                        ),
-                        Text(
-                          "Website: ${company["website"] ?? "Loading..."}",
-                          style: TextStyle(color: Colors.grey[700]),
-                        ),
-                      ],
-                    ),
+                  elevation: 6,
+                  child: InkWell(
                     onTap: () {
                       // Handle tap on company
                       showRepairServiceDialog(context, company);
                     },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            company["name"] ?? "Unknown",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.main_colour,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(Icons.location_on, size: 18, color: Colors.grey),
+                              SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  company["address"] ?? "No address available",
+                                  style: TextStyle(color: Colors.grey[700], fontSize: 14),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(Icons.phone, size: 18, color: Colors.grey),
+                              SizedBox(width: 4),
+                              Text(
+                                company["phone"] ?? "Loading...",
+                                style: TextStyle(color: Colors.grey[700], fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(Icons.web, size: 18, color: Colors.grey),
+                              SizedBox(width: 4),
+                              // Truncate long URLs with ellipsis
+                              Expanded(
+                                child: Text(
+                                  company["website"] ?? "Loading...",
+                                  style: TextStyle(color: Colors.grey[700], fontSize: 14),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,  // Allow only one line for the URL
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },

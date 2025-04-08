@@ -3,12 +3,14 @@
 //Date        : January 20, 2024
 //Description: This file contains the function to show the appliance details dialog when an appliance is clicked.
 
-import 'package:appliance_manager/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/editApplianceDialogBox.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/appliance_selected_dialog_boxes/manuals/manualsSaved.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
 import 'package:flutter/material.dart';
 
 // Function: viewApplianceDialog
 // Description: This function shows a dialog with appliance details when an appliance is clicked.
-void viewApplianceDialog(Appliance appliance, BuildContext context) {
+void viewApplianceDialog(Appliance appliance, BuildContext context,) {
   showDialog(
     context: context,
     builder: (context) {
@@ -42,6 +44,29 @@ void viewApplianceDialog(Appliance appliance, BuildContext context) {
             SizedBox(height: 15),
 
             // View Manual Button (if available)
+            TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  onPressed: () async {
+                    // Close the current dialog and open the ManualSavedWebView
+
+                    if(appliance.manualURL == null || appliance.manualURL == '') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('No manual URL available.')),
+                      );
+                      return;
+                    }
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ManualSavedWebView(appliance: appliance),
+                      ),
+                    );
+                  }, 
+                  child: Text("View Appliance Manual"),
+                ),
 
           ],
         ),
@@ -50,6 +75,7 @@ void viewApplianceDialog(Appliance appliance, BuildContext context) {
             onPressed: () => Navigator.pop(context),
             child: Text("Close"),
           ),
+
         ],
       );
     },

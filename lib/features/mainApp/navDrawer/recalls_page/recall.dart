@@ -1,4 +1,5 @@
-import 'package:appliance_manager/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
+import 'package:applianceCare/common/theme.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
 import 'package:flutter/material.dart';
 import 'services/getRecalls.dart';
 import 'model/recallClass.dart';
@@ -24,7 +25,7 @@ class _RecallPageState extends State<RecallPage> {
 
   Future<void> fetchRecalls() async {
     setState(() => isLoading = true);
-    
+
     try {
       List<Recall> fetchedRecalls = await getRecalls(
         search: searchQuery,
@@ -42,8 +43,6 @@ class _RecallPageState extends State<RecallPage> {
     }
   }
 
-  //Function    : onSearch
-  //Description : This function is used to search the recalls based on the query.
   void onSearch(String query) {
     setState(() {
       searchQuery = query;
@@ -52,15 +51,11 @@ class _RecallPageState extends State<RecallPage> {
     fetchRecalls();
   }
 
-  //Function    : nextPage
-  //Description : This function is used to navigate to the next page of the recalls.
   void nextPage() {
     setState(() => currentPage++);
     fetchRecalls();
   }
 
-  //Function    : prevPage
-  //Description : This function is used to navigate to the previous page of the recalls.
   void prevPage() {
     if (currentPage > 1) {
       setState(() => currentPage--);
@@ -68,66 +63,84 @@ class _RecallPageState extends State<RecallPage> {
     }
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Recall List')),
+      appBar: AppBar(
+        title: const Text('Recall List'),
+        centerTitle: true,
+        backgroundColor: AppTheme.main_colour, // Modern color scheme
+        elevation: 0, // Remove appBar shadow for a clean look
+      ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
               onChanged: onSearch,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Search recalls...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+                labelStyle: TextStyle(color: AppTheme.main_colour),
+                prefixIcon: Icon(Icons.search, color: AppTheme.main_colour),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(color: AppTheme.main_colour),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(color: AppTheme.main_colour),
+                ),
               ),
             ),
           ),
-
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: Icon(Icons.arrow_back, color: AppTheme.main_colour),
                   onPressed: currentPage > 1 ? prevPage : null,
                 ),
-                Text('Page $currentPage', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text('Page $currentPage', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color:AppTheme.main_colour)),
                 IconButton(
-                  icon: Icon(Icons.arrow_forward),
+                  icon: Icon(Icons.arrow_forward, color: AppTheme.main_colour),
                   onPressed: nextPage,
                 ),
               ],
             ),
           ),
-
           Expanded(
             child: isLoading
                 ? Center(child: CircularProgressIndicator())
                 : recalls.isEmpty
-                    ? Center(child: Text('No recalls found'))
+                    ? Center(child: Text('No recalls found', style: TextStyle(fontSize: 18, color: Colors.grey)))
                     : ListView.builder(
                         itemCount: recalls.length,
                         itemBuilder: (context, index) {
                           final recall = recalls[index];
                           return Card(
-                            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(color:AppTheme.main_colour.withOpacity(0.2), width: 1),
+                            ),
+                            elevation: 4, // Add slight shadow to the card for depth
                             child: ListTile(
-                              title: Text(recall.recall_heading, style: TextStyle(fontWeight: FontWeight.bold)),
+                              contentPadding: EdgeInsets.all(16),
+                              title: Text(recall.recall_heading, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Product: ${recall.product_name}'),
-                                  Text('Hazard: ${recall.hazard_description}'),
-                                  Text('Date: ${recall.recall_date}'),
+                                  SizedBox(height: 8),
+                                  Text('Product: ${recall.product_name}', style: TextStyle(fontSize: 14, color: Colors.grey[700])),
+                                  Text('Hazard: ${recall.hazard_description}', style: TextStyle(fontSize: 14, color: Colors.grey[700])),
+                                  Text('Date: ${recall.recall_date}', style: TextStyle(fontSize: 14, color: Colors.grey[700])),
                                 ],
                               ),
-                              onTap: () => showRecallDetailsDialog(recall,context), // Tap to show popup
+                              onTap: () => showRecallDetailsDialog(recall, context),
                             ),
                           );
                         },

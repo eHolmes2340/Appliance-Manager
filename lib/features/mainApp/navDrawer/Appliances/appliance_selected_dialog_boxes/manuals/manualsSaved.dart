@@ -1,3 +1,4 @@
+import 'package:applianceCare/common/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../model/appliance_information.dart';
@@ -57,6 +58,7 @@ class _ManualSavedWebViewState extends State<ManualSavedWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.main_colour,
       appBar: AppBar(
         title: Text("${widget.appliance.brand} Manual"),
         
