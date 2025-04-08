@@ -1,85 +1,141 @@
-//File       : entrypoint.dart
-//Programmer : Erik Holmes
-//Last Edited: January 20, 2024
-//Description: This file contains the entry point for the application. This is where the app is initialized and the first screen is displayed.
-
-import 'package:appliance_manager/features/auth/view/login/login.dart';
+import 'package:applianceCare/common/theme.dart';
+import 'package:applianceCare/features/auth/view/login/login.dart';
 import 'package:flutter/material.dart';
-import 'features/auth/view/signup/signup_screen.dart'; 
+import 'dart:ui';
+import 'features/auth/view/signup/signup_screen.dart';
 
-
-//Class   : Entrypoint
-//Description: This class contains the stateless widget that will be the entry point for the application 
-class Entrypoint extends StatelessWidget{
+class Entrypoint extends StatelessWidget {
   const Entrypoint({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MaterialApp(
-     // debugShowCheckedModeBanner: false,
-      title:'Appliance Manager', 
-      theme:ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color.fromARGB(255, 25, 53, 193)),
+      title: 'Appliance Manager',
+      theme: ThemeData(
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1935C1)),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 16),
+          titleLarge: TextStyle(fontWeight: FontWeight.bold),
+          
+        ),
       ),
-      home: const EntryPage(title: 'Appliance Manager'),
+      debugShowCheckedModeBanner: false,
+      home: const EntryPage(
+        title: 'Appliance Care',
+      ),
     );
   }
 }
 
-//Class   : entryPage
-//Description: This class will display the
-class EntryPage extends StatefulWidget{
+class EntryPage extends StatefulWidget {
   const EntryPage({Key? key, required this.title}) : super(key: key);
   final String title;
-  //UserInformation userInfo;  
+
   @override
   State<EntryPage> createState() => EntryPageState();
 }
 
-//Class      : entryPageState
-//Description: This class will contain the buttons used 
 class EntryPageState extends State<EntryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // extendBodyBehindAppBar: true, // For transparency effect
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   title: Text(widget.title, style: const TextStyle(color: Colors.white)),
+      //   centerTitle: true,
+      // ),
       body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/entrypoint.jpeg', // Corrected path
+              'assets/images/entrypoint.jpeg',
               fit: BoxFit.cover,
             ),
           ),
+
+          // Blurred glassmorphism card
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    // Login button pressed
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Login_Screen()),
-                    );
-                  },
-                  child: const Text('Login'),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  width: 320,
+                  padding: const EdgeInsets.all(24.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Logo
+                      Image.asset(
+                        'assets/appicon/ApplianceManagerIcon.png',
+                        height: 200,
+                        width: 400,
+                        fit: BoxFit.cover
+                      ),
+                      const SizedBox(height: 40),
+
+                      Text("Welcome to Appliance Care", style: Theme.of(context).textTheme.titleLarge?.copyWith(color: const Color.fromARGB(255, 247, 245, 245), fontSize: 20, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 16),
+                      Text("Manage your appliances with ease", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: const Color.fromARGB(255, 246, 243, 243), fontSize: 16, fontWeight: FontWeight.normal)),
+                      const SizedBox(height: 16),
+                      // Divider
+                      const Divider(
+                        color: Colors.white,
+                        thickness: 1,
+                        height: 20,
+                      ),
+                      
+
+                      // Login Button
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:  AppTheme.main_colour,
+                          foregroundColor: Colors.black,
+                          minimumSize: const Size(double.infinity, 48),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Login_Screen()),
+                          );
+                        },
+                        child: const Text('Login'),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Sign Up Button
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(0, 64, 186, 64),
+                          foregroundColor: Colors.white,
+                          minimumSize: const Size(double.infinity, 48),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SignupScreen()),
+                          );
+                        },
+                        child: const Text('Sign Up'),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Sign up button pressed 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignupScreen()),
-                    );
-                  },
-                  child: const Text('Sign Up'),
-                ),
-              ],
+              ),
             ),
           ),
         ],

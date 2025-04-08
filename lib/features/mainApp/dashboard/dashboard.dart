@@ -1,9 +1,17 @@
-import 'package:appliance_manager/features/auth/model/user_information.dart';
-import 'package:appliance_manager/features/mainApp/widgets/nav_drawer.dart';
-import 'package:appliance_manager/services/get_userInformation.dart';
+import 'package:applianceCare/common/obj/server_address.dart';
+import 'package:applianceCare/common/theme.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/Appliances/model/appliance_information.dart';
+import 'package:applianceCare/features/mainApp/dashboard/widgets/viewApplianceInfoDialog.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/recalls_page/model/recallClass.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/recalls_page/widgets/recallDetailDialog.dart';
+import 'package:applianceCare/features/mainApp/notifications/model/notificationsService.dart';
+import 'package:applianceCare/features/mainApp/notifications/services/notificationTab.dart';
+
 import 'package:flutter/material.dart';
-import 'package:csv/csv.dart'; // Import CSV parsing package
-import 'services/recalled_appliances.dart';
+import 'package:applianceCare/features/auth/model/user_information.dart';
+import 'package:applianceCare/features/mainApp/navDrawer/nav_drawer.dart';
+import 'package:applianceCare/features/auth/services/get_userInformation.dart';
+import 'services/dashboard_information.dart';
 
 class Dashboard extends StatefulWidget {
   final String validEmail; // Holds the user email from the login screen.
@@ -15,22 +23,57 @@ class Dashboard extends StatefulWidget {
 
 class DashboardState extends State<Dashboard> {
   UserInformation? userInfo;
-  List<Map<String, String>> recalls = []; // Holds the recalls data
   bool isLoadingUser = true;
-  bool isLoadingRecalls = true;
+  List<Appliance> applianceList = [];
+  List<Recall> recallList = [];
+  List<NotificationItem> notificationsList = [];
 
   @override
   void initState() {
     super.initState();
-    _loadUserInfo();
-    _loadCSVData();
+    _loadDashboardInfo();
   }
 
-  // Fetches user profile data
+  // Function to load all dashboard info
+  Future<void> _loadDashboardInfo() async {
+    setState(() {
+      isLoadingUser = true; // Show loading indicator
+    });
+    await _loadUserInfo(); // Get user info
+
+    if (userInfo != null) {
+      applianceList = await dashboardAppliance(userInfo!.id);
+      recallList = await dashboardRecalls();
+      await _loadNotifications(); // Load notifications
+    }
+
+    setState(() {}); // Refresh UI after loading
+  }
+
+  Future<void> _loadNotifications() async {
+    if (userInfo == null) return; // Ensure userInfo is loaded
+
+    try {
+      List<NotificationItem> fetchedNotifications = await fetchNotifications(userInfo!.id, ServerAddress.getRecallNotifications);
+      setState(() {
+        notificationsList = fetchedNotifications;
+      });
+    } catch (e) {
+      debugPrint("Error fetching notifications: $e");
+    }
+  }
+
+  // Function to load user info
   Future<void> _loadUserInfo() async {
     try {
       userInfo = await retrieveUserProfile(widget.validEmail);
       debugPrint("User info loaded: $userInfo");
+
+      if (userInfo == null) {
+        debugPrint("User info is null");
+      } else {
+        debugPrint("User ID: ${userInfo!.id}");
+      }
     } catch (e) {
       debugPrint("Error fetching user info: $e");
     }
@@ -44,48 +87,6 @@ class DashboardState extends State<Dashboard> {
     }
   }
 
-  // Function to load CSV data
-  Future<void> _loadCSVData() async {
-    // Fetch the CSV data from the backend
-    List<String> lines = await fetchRecalls();  // This method should return all the data
-
-    if (lines.isNotEmpty) {
-      try {
-        // Parse the CSV data
-        List<List<dynamic>> csvData = const CsvToListConverter(eol: "\n", fieldDelimiter: ",").convert(lines.join("\n"));
-        
-        if (csvData.isNotEmpty) {
-          // Assume first row is header (line[0])
-          List<String> headers = csvData[0].map((e) => e.toString()).toList();
-
-          // Parse each row (starting from line[1]) into a map with only the required fields
-          List<Map<String, String>> parsedRecalls = [];
-          for (int i = 1; i < csvData.length; i++) {
-            List<dynamic> row = csvData[i];
-
-            Map<String, String> recallEntry = {
-              'Product Safety Warning Number': row[headers.indexOf('Product Safety Warning Number')].toString(),
-              'Product Name': row[headers.indexOf('Name of product')].toString(),
-              'Hazard Description': row[headers.indexOf('Hazard Description')].toString(),
-              'Date': row[headers.indexOf('Date')].toString(),
-            };
-            parsedRecalls.add(recallEntry);
-          }
-
-          setState(() {
-            recalls = parsedRecalls;
-          });
-        }
-      } catch (e) {
-        debugPrint("Error parsing recall CSV: $e");
-      }
-    }
-
-    setState(() {
-      isLoadingRecalls = false;
-    });
-  }
-
   // Displays an error dialog if user info is null
   void _showErrorDialog() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -93,7 +94,7 @@ class DashboardState extends State<Dashboard> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Error Code: 404'),
+            title: const Text('Error Code: 500'),
             content: const Text('Servers are currently down'),
             actions: <Widget>[
               TextButton(
@@ -109,46 +110,107 @@ class DashboardState extends State<Dashboard> {
       );
     });
   }
- 
+
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(title: const Text('Dashboard')),
-    body: SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          const Text(
-            'Recent Appliance Recalls:',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+       
+        backgroundColor:AppTheme.main_colour, // Modern, customizable color
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              // Handle notification icon tap
+              showNotificationsPopup(context);
+            },
           ),
-          const SizedBox(height: 10),
-          isLoadingRecalls
-              ? const Center(child: CircularProgressIndicator())
-              : recalls.isEmpty
-                  ? const Center(child: Text("No recall data available"))
-                  : Column(
-                      children: recalls.map<Widget>((recall) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          child: ListTile(
-                            title: Text(recall['Product Safety Warning Number'] ?? 'No Product Safety Warning Number'),
-                            subtitle: Text('Date: ${recall['Date'] ?? 'N/A'}'),
-                            trailing: Text('Hazard: ${recall['Hazard Description'] ?? 'No Hazard Description'}'),
-                            isThreeLine: true,
-                          ),
-                        );
-                      }).toList(),
-                    ),
         ],
       ),
-    ),
-  );
+      drawer: userInfo != null ? NavDrawer(userInfo: userInfo!) : null,
+      body: isLoadingUser
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Dashboard",
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.black87), // Clean and modern
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Section: Recalled Products
+                  const Text(
+                    "Recently Recalled Products",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87), // Modern section header
+                  ),
+                  const SizedBox(height: 8),
+
+                  recallList.isEmpty
+                      ? const Text("No recalled products found.")
+                      : Expanded(
+                          child: ListView.builder(
+                            itemCount: recallList.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                elevation: 4,
+                                color: Colors.grey.shade100, // Light modern card color
+                                margin: const EdgeInsets.only(bottom: 12),
+                                child: ListTile(
+                                  title: Text(recallList[index].product_name),
+                                  subtitle: const Text("Tap to view details"),
+                                  trailing: const Icon(Icons.info_outline, color:AppTheme.main_colour),
+                                  onTap: () {
+                                    showRecallDetailsDialog(recallList[index], context);
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                  const SizedBox(height: 20),
+
+                  // Section: Appliances
+                  const Text(
+                    "Your Appliances",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87), // Modern section header
+                  ),
+                  const SizedBox(height: 8),
+                  applianceList.isEmpty
+                      ? const Text("No appliances found.")
+                      : Expanded(
+                          child: ListView.builder(
+                            itemCount: applianceList.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                elevation: 4,
+                                color: Colors.grey.shade100, // Light modern card color
+                                margin: const EdgeInsets.only(bottom: 12),
+                                child: ListTile(
+                                  title: Text(applianceList[index].applianceName),
+                                  subtitle: Text("Brand: ${applianceList[index].brand}"),
+                                  trailing: applianceList[index].appilanceImageURL != null && applianceList[index].appilanceImageURL.isNotEmpty
+                                      ? Image.network(
+                                          applianceList[index].appilanceImageURL,
+                                          width: 50,
+                                          height: 50,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+                                        )
+                                      : null, // No widget if imageUrl is null
+                                  onTap: () {
+                                    viewApplianceDialog(applianceList[index], context);
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                ],
+              ),
+            ),
+    );
+  }
 }
-
-}
-
-
-
-
-

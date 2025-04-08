@@ -11,6 +11,11 @@ class ServerAddress{
   //.env vars 
   static String? local_host=dotenv.env['LOCAL_HOST'];
   static String? port_number=dotenv.env['PORT_NUMBER']; 
+   //Dashboard 
+  static String? get_recall_information_for_dashboard=dotenv.env['DASHBOARD_RECALLS'];
+
+
+
 
   static String? forCheckingConnection='${ServerAddress.local_host}:${ServerAddress.port_number}/api/health';
 
@@ -19,12 +24,17 @@ class ServerAddress{
   static String? send_appliance_information=dotenv.env['SEND_APPLIANCE_INFORMATION'];
   static String? get_appliance_information=dotenv.env['GET_APPLIANCE_INFORMATION'];
 
+  static String? update_user_information=dotenv.env['UPDATE_USER_INFORMATION'];
+
+
   static String? update_appliance_information=dotenv.env['UPDATE_APPLIANCE_INFORMATION'];
 
   static String? delete_appliance_information=dotenv.env['DELETE_APPLIANCE_INFORMATION'];
 
   //Reacalled appliances
   static String? recalled_appliances=dotenv.env['GET_RECALLS_FROM_BACKEND'];
+
+  static String? recalled_notifications=dotenv.env['RECALL_NOTIFICATIONS'];
 
   //URLs 
   static String createUserProfile='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.user_information_endpoint}';
@@ -44,4 +54,23 @@ class ServerAddress{
 
   //Recall list applications 
   static String fetchRecalls='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.recalled_appliances}';
+
+  //Update user information
+  static String updateUserInformation='${ServerAddress.local_host}:${ServerAddress.port_number}/api/${ServerAddress.update_user_information}';
+
+
+  static String saveManual='${ServerAddress.local_host}:${ServerAddress.port_number}/api/saveManual';
+
+
+  static String dashboardRecall='${ServerAddress.local_host}:${ServerAddress.port_number}/api/getRecallInformationForDashboard';
+
+  static String dashboardAppliances='${ServerAddress.local_host}:${ServerAddress.port_number}/api/getApplianceInformationForDashboard/';
+
+
+  static String getRecallNotifications='${ServerAddress.local_host}:${ServerAddress.port_number}/api//recall/notifications/';
+
+
 }
+
+
+///working

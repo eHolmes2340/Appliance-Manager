@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:appliance_manager/features/auth/view/login/login.dart';
+import 'package:applianceCare/features/auth/view/login/login.dart';
 
 Future<void> showVerfiyAlertBox(context,String email) async {
   return showDialog<void>(

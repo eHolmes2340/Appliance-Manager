@@ -1,7 +1,7 @@
 // File: validate_user.dart
 // Date: January 30, 2025
 // Description: This file contains the code for the validation of the user's email and password.
-import 'package:appliance_manager/features/auth/model/user_information.dart';
+import 'package:applianceCare/features/auth/model/user_information.dart';
 import 'package:flutter/material.dart';
 
 //Function    : showVerificationDialog
